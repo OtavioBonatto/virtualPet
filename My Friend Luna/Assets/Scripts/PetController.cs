@@ -5,6 +5,8 @@ using System;
 
 public class PetController : MonoBehaviour {
 
+    public static PetController instance;
+
     public int _hunger;
     public int _happiness;
     public int _bathroom;
@@ -16,6 +18,10 @@ public class PetController : MonoBehaviour {
     public int energyTicketRate;
 
     private bool _serverTime;
+
+    private void Awake() {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -154,23 +160,41 @@ public class PetController : MonoBehaviour {
 
     public void Eat() {
         _hunger += 10;
+        if(_hunger >= 100) {
+            _hunger = 100;
+        }    
     }
 
     public void Poop() {
         _bathroom += 10;
+        if(_bathroom >= 100) {
+            _bathroom = 100;
+        }     
     }
 
     public void Play() {
         _happiness += 10;
+        if (_happiness >= 100) {
+            _happiness = 100;
+        } 
     }
 
     public void Sleep() {
-        _energy += 10;
+        _energy += 50;
+        if(_energy >= 100) {
+            _energy = 100;
+        }   
+    }
+
+    void OnApplicationPause(bool pauseStatus) {
+        if (pauseStatus) {
+            SavePet();
+            Application.Quit();
+        }
     }
 
     private void OnApplicationQuit() {
         SavePet();
         Application.Quit();
     }
-
 }
