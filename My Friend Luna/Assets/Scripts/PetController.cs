@@ -19,6 +19,10 @@ public class PetController : MonoBehaviour {
 
     private bool _serverTime;
 
+    public InventoryController inventory;
+
+    public int money;
+
     private void Awake() {
         instance = this;
     }
@@ -40,6 +44,7 @@ public class PetController : MonoBehaviour {
         }
 
         PetUIController.instance.UpdateImages(_hunger, _happiness, _bathroom, _energy);
+        MoneyUIController.instance.UpdateMoney(money);
     }
 
     void UpdateStatus() {
@@ -71,12 +76,18 @@ public class PetController : MonoBehaviour {
             _energy = PlayerPrefs.GetInt("_energy");
         }
 
-        if(!PlayerPrefs.HasKey("then")) {
+        if (!PlayerPrefs.HasKey("_money")) {
+            money = 500;
+            PlayerPrefs.SetInt("_money", money);
+        } else {
+            money = PlayerPrefs.GetInt("_money");
+        }
+
+        if (!PlayerPrefs.HasKey("then")) {
             PlayerPrefs.SetString("then", GetStringTime());
         }
 
         TimeSpan ts = GetTimeSpan();
-        Debug.Log(ts);
 
         _hunger -= (int) (ts.TotalHours * 20);
         if(_hunger < 0) {
@@ -105,6 +116,10 @@ public class PetController : MonoBehaviour {
         } else {
             UpdateDevice();
         }
+    }
+
+    public void UpdateMoney() {
+        PlayerPrefs.SetInt("_money", money);
     }
 
     void UpdateServer() {

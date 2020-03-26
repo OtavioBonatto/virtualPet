@@ -8,13 +8,13 @@ public class ShopController : MonoBehaviour {
     public string GameLevel;
 
     public void GoToShop() {
-        SceneManager.LoadScene(GameLevel);
         PetController.instance.SavePet();
+        SceneManager.LoadScene(GameLevel);
     }
 
     public void BackToMain() {
-        SceneManager.LoadScene(GameLevel);
         PetController.instance.SavePet();
+        SceneManager.LoadScene(GameLevel);
     }
 
     public void BuyFood() {
