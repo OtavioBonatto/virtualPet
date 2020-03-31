@@ -34,8 +34,14 @@ public class Shop : MonoBehaviour {
     }
 
     private void OnButtonClick(ShopItem item) {
-        PetController.instance.inventory.AddItem(item, 1);
-        PetController.instance.money -= int.Parse(item.cost);
-        PetController.instance.UpdateMoney();
+        int itemPrice = int.Parse(item.cost);
+
+        if (PetController.instance.money >= itemPrice) {
+            PetController.instance.inventory.AddItem(item, 1);
+            PetController.instance.money -= itemPrice;
+            PetController.instance.UpdateMoney();
+        } else {
+            Debug.Log("dinheiro insuficiente");
+        }
     }
 }

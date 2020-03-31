@@ -16,3 +16,4 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 3cd3d59e713f0a7418936460a9fa6c9c, type: 3}
   cost: 80
   hungerRecover: 50
+  name: b

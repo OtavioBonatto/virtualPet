@@ -64,7 +64,7 @@ public class DisplayInventory : MonoBehaviour {
     }
 
     private void OnButtonClick(ShopItem item) {
-        PetController.instance._hunger += item.hungerRecover;
+        PetController.instance.Eat(item.hungerRecover);
         PetController.instance.inventory.RemoveItem(item);
     }
 }

@@ -170,35 +170,30 @@ public class PetController : MonoBehaviour {
             PlayerPrefs.SetInt("_happiness", _happiness);
             PlayerPrefs.SetInt("_bathroom", _bathroom);
             PlayerPrefs.SetInt("_energy", _energy);
+            UpdateMoney();
         }
     }
 
-    public void Eat() {
-        _hunger += 10;
-        if(_hunger >= 100) {
+    public void Eat(int hungerRecover) {
+        _hunger += hungerRecover;
+        if(_hunger > 100) {
             _hunger = 100;
-        }    
+        }
     }
 
     public void Poop() {
-        _bathroom += 10;
-        if(_bathroom >= 100) {
-            _bathroom = 100;
-        }     
+        _bathroom = 100;
     }
 
     public void Play() {
-        _happiness += 10;
+        _happiness += 25;
         if (_happiness >= 100) {
             _happiness = 100;
         } 
     }
 
     public void Sleep() {
-        _energy += 50;
-        if(_energy >= 100) {
-            _energy = 100;
-        }   
+        _energy = 100;
     }
 
     void OnApplicationPause(bool pauseStatus) {
