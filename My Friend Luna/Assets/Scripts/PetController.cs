@@ -11,6 +11,7 @@ public class PetController : MonoBehaviour {
     public int _happiness;
     public int _bathroom;
     public int _energy;
+    public float _weigth;
 
     public int hungerTicketRate;
     public int happinessTicketRate;
@@ -22,6 +23,9 @@ public class PetController : MonoBehaviour {
     public InventoryController inventory;
 
     public int money;
+    public bool hungry;
+
+    private Animator theAnim;
 
     private void Awake() {
         instance = this;
@@ -29,8 +33,11 @@ public class PetController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        theAnim = GetComponent<Animator>();
+
         //PlayerPrefs.SetString("then", "03/17/2020 23:26:00");
         UpdateStatus();
+        PetUIController.instance.UpdateWeigth(_weigth);
     }
 
     // Update is called once per frame
@@ -43,8 +50,23 @@ public class PetController : MonoBehaviour {
             if(_energy > 0) _energy -= energyTicketRate;
         }
 
+        //actions
+        if(_bathroom < 20) {
+            PoopController.instance.SpawnPoop();
+            _bathroom = 100;
+            _happiness -= 40;
+        }
+
+        if(_hunger < 50) {
+            hungry = true;
+        } else {
+            hungry = false;
+        }
+
         PetUIController.instance.UpdateImages(_hunger, _happiness, _bathroom, _energy);
         MoneyUIController.instance.UpdateMoney(money);
+
+        theAnim.SetBool("Hungry", hungry);
     }
 
     void UpdateStatus() {
@@ -81,6 +103,13 @@ public class PetController : MonoBehaviour {
             PlayerPrefs.SetInt("_money", money);
         } else {
             money = PlayerPrefs.GetInt("_money");
+        }
+
+        if (!PlayerPrefs.HasKey("_weigth")) {
+            _weigth = 15;
+            PlayerPrefs.SetFloat("_weigth", _weigth);
+        } else {
+            _weigth = PlayerPrefs.GetFloat("_weigth");
         }
 
         if (!PlayerPrefs.HasKey("then")) {
@@ -170,11 +199,14 @@ public class PetController : MonoBehaviour {
             PlayerPrefs.SetInt("_happiness", _happiness);
             PlayerPrefs.SetInt("_bathroom", _bathroom);
             PlayerPrefs.SetInt("_energy", _energy);
+            PlayerPrefs.SetFloat("_weigth", _weigth);
             UpdateMoney();
         }
     }
 
     public void Eat(int hungerRecover) {
+        Debug.Log(_weigth);
+        PetUIController.instance.UpdateWeigth(_weigth);
         _hunger += hungerRecover;
         if(_hunger > 100) {
             _hunger = 100;

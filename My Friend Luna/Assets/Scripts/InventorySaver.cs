@@ -71,7 +71,7 @@ public class InventorySaver : MonoBehaviour {
             ShopItem item = itemDB.GetItem(name);
             if(item) {
                 inventory.AddItem(item, count);
-                Debug.Log("Adicionado " + item.sprite + "Quantidade " + count + " ao invetário.");
+                //Debug.Log("Adicionado " + item.sprite + "Quantidade " + count + " ao invetário.");
             } else {
                 Debug.LogError("item não encontrado: " + SL.serializableList[i].name);
             }

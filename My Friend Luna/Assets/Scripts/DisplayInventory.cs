@@ -29,14 +29,14 @@ public class DisplayInventory : MonoBehaviour {
 
             if(itemsDisplayed.ContainsKey(slot)) {
                 if (itemsDisplayed[slot]) {
-                    itemsDisplayed[slot].gameObject.transform.GetChild(2).GetComponent<Text>().text = "Amount " + slot.amount;
+                    itemsDisplayed[slot].gameObject.transform.GetChild(2).GetComponent<Text>().text = "Quantia: " + slot.amount;
                     //Debug.Log("já tem");
 
                     var children = new List<GameObject>();
                     foreach (Transform child in itemsContainer) children.Add(child.gameObject);
                     children.ForEach((child) => {
                         string amountText = child.transform.GetChild(2).GetComponent<Text>().text;
-                        if (amountText == "Amount 0") {
+                        if (amountText == "Quantia: 0") {
                             Debug.Log("destruir");
                             Destroy(child);
                         }
@@ -65,6 +65,7 @@ public class DisplayInventory : MonoBehaviour {
 
     private void OnButtonClick(ShopItem item) {
         PetController.instance.Eat(item.hungerRecover);
+        PetController.instance._weigth += 0.2f;
         PetController.instance.inventory.RemoveItem(item);
     }
 }

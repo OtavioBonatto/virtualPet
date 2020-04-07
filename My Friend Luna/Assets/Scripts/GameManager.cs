@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
 
     private PlatformDestroyer[] platformList;
 
+    public DeathMenu theDeathScreen;
+
     private void Awake() {
         instance = this;
     }
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour {
     void Start() {
         platformStartPoint = platformGenerator.position;
         dogStartPoint = littleDog.transform.position;
+
+        theDeathScreen.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -30,13 +34,19 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RestartGame() {
-        StartCoroutine("RestartGameCo");
+
+        littleDog.gameObject.SetActive(false);
+
+        GameManager.instance.theDeathScreen.gameObject.SetActive(true);
+
+        //StartCoroutine("RestartGameCo");
     }
 
-    public IEnumerator RestartGameCo() {
+    public void Reset() {
+        theDeathScreen.gameObject.SetActive(false);
+
         PetController.instance.Play();
-        littleDog.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+
         platformList = FindObjectsOfType<PlatformDestroyer>();
         for (int i = 0; i < platformList.Length; i++) {
             platformList[i].gameObject.SetActive(false);
@@ -46,4 +56,18 @@ public class GameManager : MonoBehaviour {
         platformGenerator.position = platformStartPoint;
         littleDog.gameObject.SetActive(true);
     }
+
+    //public IEnumerator RestartGameCo() {
+    //    PetController.instance.Play();
+    //    littleDog.gameObject.SetActive(false);
+    //    yield return new WaitForSeconds(0.5f);
+    //    platformList = FindObjectsOfType<PlatformDestroyer>();
+    //    for (int i = 0; i < platformList.Length; i++) {
+    //        platformList[i].gameObject.SetActive(false);
+    //    }
+
+    //    littleDog.transform.position = dogStartPoint;
+    //    platformGenerator.position = platformStartPoint;
+    //    littleDog.gameObject.SetActive(true);
+    //}
 }
