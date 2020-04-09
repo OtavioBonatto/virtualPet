@@ -21,7 +21,9 @@ public class PetUIController : MonoBehaviour {
         energyBar.fillAmount = (float) energy / 100;
     }
 
-    public void UpdateWeigth(float weigth) {
-        weigthText.text = "Peso: " + weigth.ToString("F2");
+    public void UpdateWeigth(float weigth, int age, string health) {
+        weigthText.text = "Peso: " + weigth.ToString("F2") + "Kg";
+        ageText.text = "Idade: " + age.ToString() + " ano";
+        healthText.text = "Saúde: " + health;
     }
 }

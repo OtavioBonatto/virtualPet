@@ -11,7 +11,11 @@ public class PetController : MonoBehaviour {
     public int _happiness;
     public int _bathroom;
     public int _energy;
+
+  
     public float _weigth;
+    public int _age;
+    public string _health;
 
     public int hungerTicketRate;
     public int happinessTicketRate;
@@ -37,7 +41,7 @@ public class PetController : MonoBehaviour {
 
         //PlayerPrefs.SetString("then", "03/17/2020 23:26:00");
         UpdateStatus();
-        PetUIController.instance.UpdateWeigth(_weigth);
+        PetUIController.instance.UpdateWeigth(_weigth, _age, _health);
     }
 
     // Update is called once per frame
@@ -50,6 +54,9 @@ public class PetController : MonoBehaviour {
             if(_energy > 0) _energy -= energyTicketRate;
         }
 
+        //day/night cycle
+        LightController.instance.DayNightCycle();
+
         //actions
         if(_bathroom < 20) {
             PoopController.instance.SpawnPoop();
@@ -57,13 +64,22 @@ public class PetController : MonoBehaviour {
             _happiness -= 40;
         }
 
+        //fome
         if(_hunger < 50) {
             hungry = true;
         } else {
             hungry = false;
         }
 
+        //saúde
+        if(_hunger <= 1) {
+            _health = "Ruim";
+        } else {
+            _health = "Boa";
+        }
+
         PetUIController.instance.UpdateImages(_hunger, _happiness, _bathroom, _energy);
+        PetUIController.instance.UpdateWeigth(_weigth, _age, _health);
         MoneyUIController.instance.UpdateMoney(money);
 
         theAnim.SetBool("Hungry", hungry);
@@ -112,6 +128,20 @@ public class PetController : MonoBehaviour {
             _weigth = PlayerPrefs.GetFloat("_weigth");
         }
 
+        if (!PlayerPrefs.HasKey("_age")) {
+            _age = 1;
+            PlayerPrefs.SetInt("_age", _age);
+        } else {
+            _age = PlayerPrefs.GetInt("_age");
+        }
+
+        if (!PlayerPrefs.HasKey("_health")) {
+            _health = "Boa";
+            PlayerPrefs.SetString("_health", _health);
+        } else {
+            _health = PlayerPrefs.GetString("_health");
+        }
+
         if (!PlayerPrefs.HasKey("then")) {
             PlayerPrefs.SetString("then", GetStringTime());
         }
@@ -133,10 +163,18 @@ public class PetController : MonoBehaviour {
             _bathroom = 0;
         }
 
-        _energy -= (int)(ts.TotalHours * 10);
-        if (_energy < 0) {
-            _energy = 0;
+        if(LightController.instance.toggleLight.isOn == true) {
+            _energy -= (int)(ts.TotalHours * 10);
+            if (_energy < 0) {
+                _energy = 0;
+            }
+        } else {
+            _energy += (int)(ts.TotalHours * 12);
+            if (_energy > 100) {
+                _energy = 100;
+            }
         }
+        
 
         //Debug.Log(GetTimeSpan().TotalHours);
 
@@ -200,13 +238,13 @@ public class PetController : MonoBehaviour {
             PlayerPrefs.SetInt("_bathroom", _bathroom);
             PlayerPrefs.SetInt("_energy", _energy);
             PlayerPrefs.SetFloat("_weigth", _weigth);
+            PlayerPrefs.SetString("_health", _health);
             UpdateMoney();
         }
     }
 
     public void Eat(int hungerRecover) {
         Debug.Log(_weigth);
-        PetUIController.instance.UpdateWeigth(_weigth);
         _hunger += hungerRecover;
         if(_hunger > 100) {
             _hunger = 100;
@@ -219,9 +257,14 @@ public class PetController : MonoBehaviour {
 
     public void Play() {
         _happiness += 25;
+        
         if (_happiness >= 100) {
             _happiness = 100;
-        } 
+        }
+
+        if (_weigth > 1) {
+            _weigth -= 0.5f;
+        }
     }
 
     public void Sleep() {
