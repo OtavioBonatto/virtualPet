@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -545,7 +545,7 @@ MonoBehaviour:
   platform: {fileID: 5167726078713856678, guid: a39e42b68efccc243b6150cc7e576032,
     type: 3}
   generationPoint: {fileID: 2122553488}
-  randomCoinChance: 50
+  randomCoinChance: 60
   randomSpikesChance: 100
 --- !u!4 &505258507
 Transform:
@@ -1292,6 +1292,7 @@ MonoBehaviour:
   shopScene: Shop
   playScene: Play Scene
   mainScene: Main Scene
+  clinicScene: 
 --- !u!4 &1046388221
 Transform:
   m_ObjectHideFlags: 0
@@ -1533,7 +1534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  speedMultiplier: 1.25
+  speedMultiplier: 1.1
   speedIncreaseMilestone: 50
   jumpForce: 4
   jumpTime: 0.2

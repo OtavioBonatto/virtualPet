@@ -55,7 +55,7 @@ public class PetController : MonoBehaviour {
         }
 
         //day/night cycle
-        LightController.instance.DayNightCycle();
+        GlobalLightController.instance.DayNightCycle();
 
         //actions
         if(_bathroom < 20) {
@@ -74,9 +74,7 @@ public class PetController : MonoBehaviour {
         //saúde
         if(_hunger <= 1) {
             _health = "Ruim";
-        } else {
-            _health = "Boa";
-        }
+        } 
 
         PetUIController.instance.UpdateImages(_hunger, _happiness, _bathroom, _energy);
         PetUIController.instance.UpdateWeigth(_weigth, _age, _health);
@@ -148,7 +146,7 @@ public class PetController : MonoBehaviour {
 
         TimeSpan ts = GetTimeSpan();
 
-        _hunger -= (int) (ts.TotalHours * 20);
+        _hunger -= (int) (ts.TotalHours * 5);
         if(_hunger < 0) {
             _hunger = 0;
         }

@@ -12,7 +12,6 @@ public class LightController : MonoBehaviour {
     public Light2D lamp;
     public GameObject lampObj;
     public Toggle toggleLight;
-    public Light2D globalLight;
 
     private void Awake() {
 
@@ -36,14 +35,6 @@ public class LightController : MonoBehaviour {
         if (lampObj.activeSelf) {
             PlayerPrefs.SetInt("LampOn", 1);
             toggleLight.isOn = true;
-        }
-    }
-
-    public void DayNightCycle() {
-        if(DateTime.Now.Hour >= 20 && DateTime.Now.Hour <= 6) {
-            globalLight.intensity = 0.1f;
-        } else {
-            globalLight.intensity = 1;
         }
     }
 

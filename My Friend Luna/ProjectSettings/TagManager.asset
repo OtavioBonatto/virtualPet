@@ -8,6 +8,14 @@ TagManager:
   - poop
   - Music
   - background
+  - Bear
+  - Duck
+  - Rabbit
+  - Frog
+  - Cat
+  - Dog
+  - Pig
+  - Panda
   layers:
   - Default
   - TransparentFX
@@ -47,4 +55,7 @@ TagManager:
     locked: 0
   - name: Sacada
     uniqueID: 1546230587
+    locked: 0
+  - name: Doctor
+    uniqueID: 2053033931
     locked: 0
