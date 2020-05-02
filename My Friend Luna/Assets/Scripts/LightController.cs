@@ -37,16 +37,4 @@ public class LightController : MonoBehaviour {
             toggleLight.isOn = true;
         }
     }
-
-    //private void OnApplicationQuit() {
-    //    if(!lampObj.activeSelf) {
-    //        PlayerPrefs.SetInt("LampOn", 0);
-    //        toggleLight.isOn = false;
-    //    } 
-
-    //    if(lampObj.activeSelf) {
-    //        PlayerPrefs.SetInt("LampOn", 1);
-    //        toggleLight.isOn = true;
-    //    }
-    //}
 }

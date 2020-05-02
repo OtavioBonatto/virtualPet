@@ -82,7 +82,7 @@ public class FindMatches : MonoBehaviour {
     }
 
     private IEnumerator FindAllMatchesCo() {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
 
         for (int i = 0; i < Board.instance.width; i++) {
             for (int j = 0; j < Board.instance.heigth; j++) {
@@ -150,8 +150,10 @@ public class FindMatches : MonoBehaviour {
             for (int j = row - 1; j <= row + 1; j++) {
                 //check if the piece is inside the board
                 if (i >= 0 && i < Board.instance.width && j >= 0 && j < Board.instance.heigth) {
-                    dots.Add(Board.instance.allDots[i, j]);
-                    Board.instance.allDots[i, j].GetComponent<DotController>().isMatched = true;
+                    if(Board.instance.allDots[i, j] != null) {
+                        dots.Add(Board.instance.allDots[i, j]);
+                        Board.instance.allDots[i, j].GetComponent<DotController>().isMatched = true;
+                    }
                 }
             }
         }
@@ -162,8 +164,13 @@ public class FindMatches : MonoBehaviour {
         List<GameObject> dots = new List<GameObject>();
         for (int i = 0; i < Board.instance.heigth; i++) {
             if(Board.instance.allDots[column, i] != null) {
+                DotController dot = Board.instance.allDots[column, i].GetComponent<DotController>();
+                if(dot.isRowBomb) {
+                    dots.Union(GetRowPieces(i)).ToList();
+                }
+
                 dots.Add(Board.instance.allDots[column, i]);
-                Board.instance.allDots[column, i].GetComponent<DotController>().isMatched = true;
+                dot.isMatched = true;
             }
         }
         return dots;
@@ -173,8 +180,13 @@ public class FindMatches : MonoBehaviour {
         List<GameObject> dots = new List<GameObject>();
         for (int i = 0; i < Board.instance.width; i++) {
             if (Board.instance.allDots[i, row] != null) {
+                DotController dot = Board.instance.allDots[i, row].GetComponent<DotController>();
+                if (dot.isColumnBomb) {
+                    dots.Union(GetColumnPieces(i)).ToList();
+                }
+
                 dots.Add(Board.instance.allDots[i, row]);
-                Board.instance.allDots[i, row].GetComponent<DotController>().isMatched = true;
+                dot.isMatched = true;
             }
         }
         return dots;

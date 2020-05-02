@@ -37,6 +37,7 @@ public class Shop : MonoBehaviour {
         int itemPrice = int.Parse(item.cost);
 
         if (PetController.instance.money >= itemPrice) {
+            AudioManager.instance.PlaySFX(1);
             PetController.instance.inventory.AddItem(item, 1);
             PetController.instance.money -= itemPrice;
             PetController.instance.UpdateMoney();

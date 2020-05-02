@@ -9,6 +9,7 @@ public class GlobalLightController : MonoBehaviour {
     public static GlobalLightController instance;
 
     public Light2D globalLight;
+    public bool night;
 
     private void Awake() {
         instance = this;
@@ -27,8 +28,10 @@ public class GlobalLightController : MonoBehaviour {
     public void DayNightCycle() {
         if (DateTime.Now.Hour >= 20 || DateTime.Now.Hour <= 6) {
             globalLight.intensity = 0.1f;
+            night = true;
         } else {
             globalLight.intensity = 1;
+            night = false;
         }
     }
 }

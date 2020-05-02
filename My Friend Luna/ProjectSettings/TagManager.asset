@@ -16,6 +16,7 @@ TagManager:
   - Dog
   - Pig
   - Panda
+  - Color
   layers:
   - Default
   - TransparentFX

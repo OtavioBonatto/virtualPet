@@ -7,8 +7,10 @@ public class ShopController : MonoBehaviour {
 
     public string shopScene;
     public string playScene;
+    public string playScene2;
     public string mainScene;
     public string clinicScene;
+    public string gameSelect;
 
     public void Start() {
         GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().PlayMusic();
@@ -34,6 +36,13 @@ public class ShopController : MonoBehaviour {
         StartCoroutine(DelaySceneLoad(playScene));
     }
 
+    public void GoPlay2() {
+        PetController.instance.Play();
+        AudioManager.instance.PlaySFX(0);
+
+        StartCoroutine(DelaySceneLoad(playScene2));
+    }
+
     public void GoToClinic() {
         AudioManager.instance.PlaySFX(0);
 
@@ -48,5 +57,11 @@ public class ShopController : MonoBehaviour {
         AudioManager.instance.PlaySFX(0);
 
         StartCoroutine(DelaySceneLoad(mainScene));
+    }
+
+    public void GameSelect() {
+        AudioManager.instance.PlaySFX(0);
+
+        StartCoroutine(DelaySceneLoad(gameSelect));
     }
 }

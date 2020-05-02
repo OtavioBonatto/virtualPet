@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 487536065378406064}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.1, y: -2.29, z: 0}
-  m_LocalScale: {x: 2.383792, y: 2.383792, z: 2.383792}
+  m_LocalScale: {x: 2.3, y: 2.3, z: 2.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1546230587
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 05d7797ece966b347b0c32b3971a2ca9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,12 +100,13 @@ MonoBehaviour:
   _happiness: 100
   _bathroom: 100
   _energy: 100
-  _age: 0
   _weigth: 0
-  hungerTicketRate: 20
-  happinessTicketRate: 10
-  bathroomTicketRate: 10
-  energyTicketRate: 10
+  _age: 0
+  _health: 
+  hungerTicketRate: 15
+  happinessTicketRate: 5
+  bathroomTicketRate: 15
+  energyTicketRate: 8
   inventory: {fileID: 11400000, guid: 073732b9d76f8a441b7c58a7d065e6a7, type: 2}
   money: 0
   hungry: 0

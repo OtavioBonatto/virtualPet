@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Clinic Scene.unity
     guid: cf71b43e6c0f4124faa4a51cc00d22bf
   - enabled: 1
+    path: Assets/Scenes/Game Select.unity
+    guid: af8f36378da14a84dac853cc88c3d28b
+  - enabled: 1
     path: Assets/Scenes/Play Scene.unity
     guid: 7cf72b6146084a8479f11f738ead7487
+  - enabled: 1
+    path: Assets/Scenes/Play2 Scene.unity
+    guid: 6804c37aff9cbba428ea34faca3793ae
   m_configObjects: {}

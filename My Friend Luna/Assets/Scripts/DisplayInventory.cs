@@ -64,6 +64,7 @@ public class DisplayInventory : MonoBehaviour {
     }
 
     private void OnButtonClick(ShopItem item) {
+        AudioManager.instance.PlaySFX(1);
         PetController.instance.Eat(item.hungerRecover);
         PetController.instance._weigth += 0.2f;
         PetController.instance.inventory.RemoveItem(item);

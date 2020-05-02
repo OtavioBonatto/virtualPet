@@ -45,5 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopScene: Shop
   playScene: Play Scene
+  playScene2: Play2 Scene
   mainScene: Main Scene
   clinicScene: Clinic Scene
+  gameSelect: Game Select

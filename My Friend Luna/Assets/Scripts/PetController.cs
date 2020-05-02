@@ -23,6 +23,7 @@ public class PetController : MonoBehaviour {
     public int energyTicketRate;
 
     private bool _serverTime;
+    private DateTime _lastAdTime = DateTime.MinValue;
 
     public InventoryController inventory;
 
@@ -41,7 +42,9 @@ public class PetController : MonoBehaviour {
 
         //PlayerPrefs.SetString("then", "03/17/2020 23:26:00");
         UpdateStatus();
-        PetUIController.instance.UpdateWeigth(_weigth, _age, _health);
+        if(PetUIController.instance != null) {
+            PetUIController.instance.UpdateWeigth(_weigth, _age, _health);
+        }        
     }
 
     // Update is called once per frame
@@ -55,13 +58,18 @@ public class PetController : MonoBehaviour {
         }
 
         //day/night cycle
-        GlobalLightController.instance.DayNightCycle();
+        if(GlobalLightController.instance != null) {
+            GlobalLightController.instance.DayNightCycle();
+        }
 
         //actions
-        if(_bathroom < 20) {
+        if(_bathroom < 10) {
             PoopController.instance.SpawnPoop();
             _bathroom = 100;
-            _happiness -= 40;
+            _happiness -= 50;
+            if(_happiness < 0) {
+                _happiness = 0;
+            }
         }
 
         //fome
@@ -76,8 +84,11 @@ public class PetController : MonoBehaviour {
             _health = "Ruim";
         } 
 
-        PetUIController.instance.UpdateImages(_hunger, _happiness, _bathroom, _energy);
-        PetUIController.instance.UpdateWeigth(_weigth, _age, _health);
+        if(PetUIController.instance != null) {
+            PetUIController.instance.UpdateImages(_hunger, _happiness, _bathroom, _energy);
+            PetUIController.instance.UpdateWeigth(_weigth, _age, _health);
+        }
+        
         MoneyUIController.instance.UpdateMoney(money);
 
         theAnim.SetBool("Hungry", hungry);
@@ -146,7 +157,7 @@ public class PetController : MonoBehaviour {
 
         TimeSpan ts = GetTimeSpan();
 
-        _hunger -= (int) (ts.TotalHours * 5);
+        _hunger -= (int) (ts.TotalHours * 15);
         if(_hunger < 0) {
             _hunger = 0;
         }
@@ -156,23 +167,44 @@ public class PetController : MonoBehaviour {
             _happiness = 0;
         }
 
-        _bathroom -= (int)(ts.TotalHours * 10);
+        _bathroom -= (int)(ts.TotalHours * 15);
         if (_bathroom < 0) {
             _bathroom = 0;
         }
 
-        if(LightController.instance.toggleLight.isOn == true) {
-            _energy -= (int)(ts.TotalHours * 10);
+        //add 1 day in age
+        if (_lastAdTime.AddDays(1) > DateTime.Now) {
+            // You can show a add now
+            _age += 1;
+            // Store for next time
+            _lastAdTime = DateTime.Now;
+        }
+
+        //if(LightController.instance.toggleLight.isOn == true) {
+        //    _energy -= (int)(ts.TotalHours * 10);
+        //    if (_energy < 0) {
+        //        _energy = 0;
+        //    }
+        //} else {
+        //    _energy += (int)(ts.TotalHours * 12);
+        //    if (_energy > 100) {
+        //        _energy = 100;
+        //    }
+        //}
+
+
+
+        if (GlobalLightController.instance.night == true && LightController.instance.toggleLight.isOn == false) {
+            _energy += (int)(ts.TotalHours * 10);
+            if(_energy > 100) {
+                _energy = 100;
+            }
+        } else {
+            _energy -= (int)(ts.TotalHours * 8);
             if (_energy < 0) {
                 _energy = 0;
             }
-        } else {
-            _energy += (int)(ts.TotalHours * 12);
-            if (_energy > 100) {
-                _energy = 100;
-            }
-        }
-        
+        }       
 
         //Debug.Log(GetTimeSpan().TotalHours);
 
@@ -242,7 +274,6 @@ public class PetController : MonoBehaviour {
     }
 
     public void Eat(int hungerRecover) {
-        Debug.Log(_weigth);
         _hunger += hungerRecover;
         if(_hunger > 100) {
             _hunger = 100;
@@ -261,7 +292,7 @@ public class PetController : MonoBehaviour {
         }
 
         if (_weigth > 1) {
-            _weigth -= 0.5f;
+            _weigth -= 0.2f;
         }
     }
 

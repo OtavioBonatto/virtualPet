@@ -80,7 +80,7 @@ public class PlayPetController : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.tag == "killbox") {
+        if(other.gameObject.CompareTag("killbox")) {
             GameManager.instance.RestartGame();
 
             moveSpeed = moveSpeedStore;

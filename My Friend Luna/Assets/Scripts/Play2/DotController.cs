@@ -34,6 +34,7 @@ public class DotController : MonoBehaviour {
         isRowBomb = false;
         isColorBomb = false;
         isAdjacentBomb = false;
+        Board.instance.currentState = GameState.move;
     }
 
     // Update is called once per frame
@@ -111,13 +112,18 @@ public class DotController : MonoBehaviour {
     }
 
     private void OnMouseDown() {
+
+        //destroy the hint
+        HintManager.instance.DestroyHint();
+        
+
         if(Board.instance.currentState == GameState.move) {
             firstTouchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }        
     }
 
     private void OnMouseUp() {
-        if(Board.instance.currentState == GameState.move) {
+        if(Board.instance.currentState == GameState.move && EndGameManager.instance.endGame == false) {
             finalTouchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             CalculateAngle();
         }        
@@ -158,9 +164,11 @@ public class DotController : MonoBehaviour {
         } else if (swipeAngle < -45 && swipeAngle >= -135 && row > 0) {
             //Down Swipe
             MovePiecesActual(Vector2.down);
+        } else {
+            Board.instance.currentState = GameState.move;
         }
 
-        Board.instance.currentState = GameState.move;
+        //Board.instance.currentState = GameState.move;
 
     }      
     
@@ -180,6 +188,7 @@ public class DotController : MonoBehaviour {
         isColorBomb = true;
         GameObject color = Instantiate(colorBomb, transform.position, Quaternion.identity);
         color.transform.parent = this.transform;
+        this.gameObject.tag = "Color";
     }
 
     public void MakeAdjacentBomb() {
