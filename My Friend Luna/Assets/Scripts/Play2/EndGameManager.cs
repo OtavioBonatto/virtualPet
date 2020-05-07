@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EndGameManager : MonoBehaviour {
@@ -15,6 +16,9 @@ public class EndGameManager : MonoBehaviour {
     public int currentCounterValue;
     private float timerSeconds;
     public bool endGame;
+
+    public Text pointsText;
+    public Text matchScore;
 
     private void Awake() {
         instance = this;
@@ -45,6 +49,15 @@ public class EndGameManager : MonoBehaviour {
         if(currentCounterValue == 0) {
             endGame = true;
             theDeathScreen.gameObject.SetActive(true);
+            if(GameController.instance != null) {
+                pointsText.text = "Você ganhou: " + GameController.instance.memoryGameScore + "$";
+            }
+
+            if(ScoreManager.instance != null) {
+                Debug.Log(ScoreManager.instance.score);
+                matchScore.text = "Você ganhou: " + ScoreManager.instance.score + "$";
+            }            
+            
             currentCounterValue = 0;
             counter.text = "" + currentCounterValue;
         }
@@ -58,5 +71,13 @@ public class EndGameManager : MonoBehaviour {
         counter.text = "" + currentCounterValue;
         timerSeconds = 1;
         ScoreManager.instance.score = 0;
+    }
+
+    public void RestartMemoryGame() {
+        //theDeathScreen.gameObject.SetActive(false);
+        //currentCounterValue = counterValue;
+        //counter.text = "" + currentCounterValue;
+        //timerSeconds = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

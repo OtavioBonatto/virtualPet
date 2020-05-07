@@ -49,3 +49,4 @@ MonoBehaviour:
   mainScene: Main Scene
   clinicScene: Clinic Scene
   gameSelect: Game Select
+  startScene: Start Menu

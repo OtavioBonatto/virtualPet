@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Start Menu.unity
+    guid: 2023d4bb145d64f4984a9c535d09ff43
+  - enabled: 1
     path: Assets/Scenes/Main Scene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
@@ -23,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Play2 Scene.unity
     guid: 6804c37aff9cbba428ea34faca3793ae
+  - enabled: 1
+    path: Assets/Scenes/Memory Game.unity
+    guid: fdd5185a47d3cfd4c94310a70eb29fe9
+  - enabled: 1
+    path: Assets/Scenes/Pet Shop.unity
+    guid: c263a3919ed1f514b88115905a73837b
   m_configObjects: {}

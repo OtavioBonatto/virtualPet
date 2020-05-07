@@ -17,6 +17,8 @@ TagManager:
   - Pig
   - Panda
   - Color
+  - Bowl
+  - PuzzleButton
   layers:
   - Default
   - TransparentFX

@@ -17,12 +17,14 @@ public class GlobalLightController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        
+        DayNightCycle();
     }
 
     // Update is called once per frame
     void Update() {
-        
+        if(Input.GetKeyDown(KeyCode.L)) {
+            ChangeToNight();
+        }
     }
 
     public void DayNightCycle() {
@@ -33,5 +35,10 @@ public class GlobalLightController : MonoBehaviour {
             globalLight.intensity = 1;
             night = false;
         }
+    }
+
+    public void ChangeToNight() {
+        night = true;
+        globalLight.intensity = 0.1f;
     }
 }

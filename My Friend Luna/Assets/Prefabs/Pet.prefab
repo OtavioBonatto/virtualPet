@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &487536065378406061
 Transform:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 05d7797ece966b347b0c32b3971a2ca9, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,15 +100,16 @@ MonoBehaviour:
   _happiness: 100
   _bathroom: 100
   _energy: 100
-  _weigth: 0
-  _age: 0
-  _health: 
+  _weigth: 15
+  _age: 1
+  _health: Boa
+  _name: 
   hungerTicketRate: 15
   happinessTicketRate: 5
   bathroomTicketRate: 15
   energyTicketRate: 8
   inventory: {fileID: 11400000, guid: 073732b9d76f8a441b7c58a7d065e6a7, type: 2}
-  money: 0
+  money: 500
   hungry: 0
 --- !u!95 &382804583
 Animator:
