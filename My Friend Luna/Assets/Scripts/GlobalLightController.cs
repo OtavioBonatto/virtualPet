@@ -10,6 +10,8 @@ public class GlobalLightController : MonoBehaviour {
 
     public Light2D globalLight;
     public bool night;
+    public SpriteRenderer nightBackground;
+    public SpriteRenderer dayBackground;
 
     private void Awake() {
         instance = this;
@@ -23,22 +25,33 @@ public class GlobalLightController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(Input.GetKeyDown(KeyCode.L)) {
-            ChangeToNight();
+            if(night == true) {
+                ChangeToDay();
+            } else {
+                ChangeToNight();
+            }
         }
     }
 
     public void DayNightCycle() {
         if (DateTime.Now.Hour >= 20 || DateTime.Now.Hour <= 6) {
-            globalLight.intensity = 0.1f;
-            night = true;
+            ChangeToNight();
         } else {
-            globalLight.intensity = 1;
-            night = false;
+            ChangeToDay();
         }
     }
 
     public void ChangeToNight() {
         night = true;
-        globalLight.intensity = 0.1f;
+        globalLight.intensity = 0.40f;
+        nightBackground.gameObject.SetActive(true);
+        dayBackground.gameObject.SetActive(false);
+    }
+
+    public void ChangeToDay() {
+        night = false;
+        globalLight.intensity = 1;
+        dayBackground.gameObject.SetActive(true);
+        nightBackground.gameObject.SetActive(false);
     }
 }

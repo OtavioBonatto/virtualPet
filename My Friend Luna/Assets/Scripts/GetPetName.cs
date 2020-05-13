@@ -16,6 +16,10 @@ public class GetPetName : MonoBehaviour {
         instance = this;
     }
 
+    private void Start() {
+        mobileKeys = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+    }
+
     private void OnGUI() {
         if(petNameInput.isFocused && petNameInput.text != "" && Input.GetKey(KeyCode.Return)) {
             petName = petNameInput.text;

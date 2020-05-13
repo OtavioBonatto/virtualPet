@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0ef98f859b1b9bb47b4863f1105cea11, type: 2}
+  m_Motion: {fileID: 7400000, guid: 7b6e2b1ec448b8e4d9f579a45cb231fa, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -32,7 +32,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: cat
+  m_Name: cat_grey
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Hungry

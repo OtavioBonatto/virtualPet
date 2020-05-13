@@ -19,6 +19,12 @@ TagManager:
   - Color
   - Bowl
   - PuzzleButton
+  - Bowl Blue
+  - Bowl Green
+  - Bowl Red
+  - Football
+  - Cricket Ball
+  - Basket Ball
   layers:
   - Default
   - TransparentFX
