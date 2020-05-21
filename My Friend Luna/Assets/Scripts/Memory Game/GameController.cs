@@ -41,6 +41,10 @@ public class GameController : MonoBehaviour {
         memogryGameScoreText.text = "Pontuação: " + memoryGameScore;
     }
 
+    private void Update() {
+        PetController.instance.Play();
+    }
+
     private void GetButtons() {
         GameObject[] objects = GameObject.FindGameObjectsWithTag("PuzzleButton");
 
@@ -74,6 +78,7 @@ public class GameController : MonoBehaviour {
         
         if(!firstGuess) {
 
+            AudioManager.instance.PlaySFX(1);
             firstGuess = true;
             firstGuessIndex = int.Parse(EventSystem.current.currentSelectedGameObject.name);
             firstGuessCard = gameCards[firstGuessIndex].name;
@@ -81,6 +86,7 @@ public class GameController : MonoBehaviour {
 
         } else if(!secondGuess) {
 
+            AudioManager.instance.PlaySFX(1);
             secondGuess = true;
             secondGuessIndex = int.Parse(EventSystem.current.currentSelectedGameObject.name);
             secondGuessCard = gameCards[secondGuessIndex].name;
@@ -91,10 +97,11 @@ public class GameController : MonoBehaviour {
     }
 
     IEnumerator CheckIfCardsMatch() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
 
         if (firstGuessCard.Equals(secondGuessCard) && firstGuessIndex != secondGuessIndex) {
 
+            AudioManager.instance.PlaySFX(2);
             yield return new WaitForSeconds(.5f);
             btns[firstGuessIndex].interactable = false;
             btns[secondGuessIndex].interactable = false;
@@ -108,13 +115,13 @@ public class GameController : MonoBehaviour {
 
             CheckIfGameIsFinished();
         } else {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.4f);
 
             btns[firstGuessIndex].image.sprite = bgImage;
             btns[secondGuessIndex].image.sprite = bgImage;
         }
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.3f);
 
         firstGuess = secondGuess = false;
     }
@@ -123,7 +130,19 @@ public class GameController : MonoBehaviour {
         countCorrectGuesses++;
 
         if(countCorrectGuesses == gameGuesses) {
-            Debug.Log("Jogo terminou");
+            Debug.Log("Fim do jogo.");
+            btns.Clear();
+            GetButtons();
+            for (int i = 0; i < btns.Count; i++) {
+                btns[i].interactable = true;
+                btns[i].image.sprite = bgImage;
+                btns[i].image.color = new Color(255, 255, 255);
+            }
+
+            Shuffle(gameCards);
+
+            gameGuesses = gameCards.Count / 2;
+            countCorrectGuesses = 0;
         }
     }
 

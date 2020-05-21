@@ -19,7 +19,9 @@ public class FillBowl : MonoBehaviour {
         theSR = GetComponent<SpriteRenderer>();
 
         if(PlayerPrefs.GetInt("FullBowl") == 1) {
-            ChangeSprite();
+            theSR.sprite = bowlWater;
+        } else {
+            theSR.sprite = bowl;
         }
     }
 
@@ -33,7 +35,7 @@ public class FillBowl : MonoBehaviour {
             if (hit != false && hit.collider != null && hit.collider.CompareTag("Bowl")) {
                 if(theSR.sprite == bowl) {
                     AudioManager.instance.PlaySFX(2);
-                    ChangeSprite();
+                    theSR.sprite = bowlWater;
                     PlayerPrefs.SetInt("FullBowl", 1);
                 }
             }
@@ -41,13 +43,7 @@ public class FillBowl : MonoBehaviour {
 
         //esvazia o pote de agua
         if(Input.GetKeyDown(KeyCode.O)) {
-            theSR.sprite = bowl;
-        }
-    }
-
-    private void ChangeSprite() {
-        if(theSR.sprite == bowl) {
-            theSR.sprite = bowlWater;
+            EmptyBowl();
         }
     }
 

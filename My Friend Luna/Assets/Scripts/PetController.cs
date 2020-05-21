@@ -7,10 +7,10 @@ public class PetController : MonoBehaviour {
 
     public static PetController instance;
 
-    public int _hunger;
-    public int _happiness;
+    public float _hunger;
+    public float _happiness;
     public int _bathroom;
-    public int _energy;
+    public float _energy;
 
   
     public float _weigth;
@@ -24,12 +24,15 @@ public class PetController : MonoBehaviour {
     public int energyTicketRate;
 
     private bool _serverTime;
-    private DateTime _lastAdTime = DateTime.MinValue;
 
     public InventoryController inventory;
 
     public int money;
     public bool hungry;
+    private DateTime lastDay = DateTime.MinValue;
+
+    public GameObject heart;
+    public Transform heartPosition;
 
     public Animator theAnim;
 
@@ -69,7 +72,7 @@ public class PetController : MonoBehaviour {
         }
 
         //fome
-        if(_hunger < 50) {
+        if(_hunger < 30) {
             hungry = true;
         } else {
             hungry = false;
@@ -78,9 +81,33 @@ public class PetController : MonoBehaviour {
         //saúde
         if(_hunger <= 1) {
             _health = "Ruim";
-        } 
+        }
 
-        if(PetUIController.instance != null) {
+        //idade
+        if (lastDay.AddDays(1) > DateTime.Now) {
+            // increase the age
+            _age++;
+            // Store for next time
+            lastDay = DateTime.Now;
+        }
+
+        //death
+        //_weigth too low or too high
+        if (_weigth >= 50) {
+            gameObject.SetActive(false);
+        }
+
+        if(_weigth <= 0) {
+            gameObject.SetActive(false);
+        }
+
+        //0 happiness for too long
+        if(_happiness <= 0) {
+            gameObject.SetActive(false);
+        }
+
+        //interface
+        if (PetUIController.instance != null) {
             PetUIController.instance.UpdateImages(_hunger, _happiness, _bathroom, _energy);
             PetUIController.instance.UpdateWeigth(_weigth, _age, _health, _name);
         }
@@ -88,7 +115,27 @@ public class PetController : MonoBehaviour {
         if(MoneyUIController.instance != null) {
             MoneyUIController.instance.UpdateMoney(money);
         }
-        
+
+        //click love animation
+        if (Input.GetMouseButtonDown(0)) {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            if (hit != false && hit.collider != null && hit.collider.CompareTag("Pet")) {
+                if(heart != null) {
+                    AudioManager.instance.PlaySFX(4);
+                    var heartBox = Instantiate(heart, heartPosition.transform.position, heartPosition.transform.rotation);
+                    _happiness++;
+                    if(_happiness > 100) {
+                        _happiness = 100;
+                    }
+                    Destroy(heartBox, 1);
+                }
+                
+            }
+        }
+
 
         theAnim.SetBool("Hungry", hungry);
     }
@@ -97,16 +144,16 @@ public class PetController : MonoBehaviour {
 
         if(!PlayerPrefs.HasKey("_hunger")) {
             _hunger = 60;
-            PlayerPrefs.SetInt("_hunger", _hunger);
+            PlayerPrefs.SetFloat("_hunger", _hunger);
         } else {
-            _hunger = PlayerPrefs.GetInt("_hunger");            
+            _hunger = PlayerPrefs.GetFloat("_hunger");            
         }
 
         if (!PlayerPrefs.HasKey("_happiness")) {
             _happiness = 90;
-            PlayerPrefs.SetInt("_happiness", _happiness);
+            PlayerPrefs.SetFloat("_happiness", _happiness);
         } else {
-            _happiness = PlayerPrefs.GetInt("_happiness");
+            _happiness = PlayerPrefs.GetFloat("_happiness");
         }
 
         if (!PlayerPrefs.HasKey("_bathroom")) {
@@ -118,9 +165,9 @@ public class PetController : MonoBehaviour {
 
         if (!PlayerPrefs.HasKey("_energy")) {
             _energy = 100;
-            PlayerPrefs.SetInt("_energy", _energy);
+            PlayerPrefs.SetFloat("_energy", _energy);
         } else {
-            _energy = PlayerPrefs.GetInt("_energy");
+            _energy = PlayerPrefs.GetFloat("_energy");
         }
 
         if (!PlayerPrefs.HasKey("_money")) {
@@ -164,12 +211,12 @@ public class PetController : MonoBehaviour {
 
         TimeSpan ts = GetTimeSpan();
 
-        _hunger -= (int) (ts.TotalHours * 15);
+        _hunger -= (float)(ts.TotalHours * 15);
         if(_hunger < 0) {
             _hunger = 0;
         }
 
-        _happiness -= (int)((100 - _hunger) * (ts.TotalHours / 5));
+        _happiness -= (float)((100 - _hunger) * (ts.TotalHours / 5));
         if (_happiness < 0) {
             _happiness = 0;
         }
@@ -179,14 +226,6 @@ public class PetController : MonoBehaviour {
             _bathroom = 0;
         }
 
-        //add 1 day in age
-        if (_lastAdTime.AddDays(1) > DateTime.Now) {
-            // You can show a add now
-            _age += 1;
-            // Store for next time
-            _lastAdTime = DateTime.Now;
-        }
-
         //esvazia o pote de água
         if(ts.TotalHours >= 1) {
             FillBowl.instance.EmptyBowl();
@@ -194,35 +233,17 @@ public class PetController : MonoBehaviour {
 
         if(LightController.instance != null) {
             if (LightController.instance.toggleLight.isOn == true) {
-                _energy -= (int)(ts.TotalHours * 10);
+                _energy -= (float)(ts.TotalHours * 10);
                 if (_energy < 0) {
                     _energy = 0;
                 }
             } else {
-                _energy += (int)(ts.TotalHours * 10);
+                _energy += (float)(ts.TotalHours * 10);
                 if (_energy > 100) {
                     _energy = 100;
                 }
             }
-        }       
-
-
-        //energy
-        //if (GlobalLightController.instance.night && !LightController.instance.toggleLight.isOn) {
-        //    Debug.Log("Recuperando energia");
-        //    _energy += (int)(ts.TotalSeconds * 1);
-        //    if(_energy > 100) {
-        //        _energy = 100;
-        //    }
-        //} else {
-        //    _energy -= (int)(ts.TotalHours * 8);
-        //    Debug.Log("Perdendo energia");
-        //    if (_energy < 0) {
-        //        _energy = 0;
-        //    }
-        //}  
-
-        //Debug.Log(GetTimeSpan().TotalHours);
+        }
 
         if (_serverTime) {
             UpdateServer();
@@ -256,12 +277,12 @@ public class PetController : MonoBehaviour {
         return now.Month + "/" + now.Day + "/" + now.Year + " " + now.Hour + ":" + now.Minute + ":" + now.Second;
     }
 
-    public int Hunger {
+    public float Hunger {
         get { return _hunger; }
         set { _hunger = value; }
     }
 
-    public int Happiness {
+    public float Happiness {
         get { return _happiness; }
         set { _happiness = value; }
     }
@@ -271,7 +292,7 @@ public class PetController : MonoBehaviour {
         set { _bathroom = value; }
     }
 
-    public int Energy {
+    public float Energy {
         get { return _energy; }
         set { _energy = value; }
     }  
@@ -279,10 +300,10 @@ public class PetController : MonoBehaviour {
     public void SavePet() { 
         if(!_serverTime) {
             UpdateDevice();
-            PlayerPrefs.SetInt("_hunger", _hunger);
-            PlayerPrefs.SetInt("_happiness", _happiness);
+            PlayerPrefs.SetFloat("_hunger", _hunger);
+            PlayerPrefs.SetFloat("_happiness", _happiness);
             PlayerPrefs.SetInt("_bathroom", _bathroom);
-            PlayerPrefs.SetInt("_energy", _energy);
+            PlayerPrefs.SetFloat("_energy", _energy);
             PlayerPrefs.SetFloat("_weigth", _weigth);
             PlayerPrefs.SetString("_health", _health);
             PlayerPrefs.SetString("_name", _name);
@@ -298,14 +319,29 @@ public class PetController : MonoBehaviour {
     }
 
     public void Play() {
-        _happiness += 25;
-        
+        //increase pet fun
+        //0.4 of happiness per second
+        _happiness += 0.4f * Time.deltaTime;
         if (_happiness >= 100) {
             _happiness = 100;
         }
 
-        if (_weigth > 1) {
-            _weigth -= 0.2f;
+        //increase hungry
+        _hunger -= 0.2f * Time.deltaTime;
+        if (_hunger <= 0) {
+            _hunger = 0;
+        }        
+
+        //gastar 30 gramas em 100 segundos
+        _weigth -= 0.003f * Time.deltaTime;
+        if (_weigth <= 1) {
+            _weigth = 1;
+        }
+
+        //decrease energy
+        _energy -= 0.1f * Time.deltaTime;
+        if (_energy <= 0) {
+            _energy = 0;            
         }
     }
 

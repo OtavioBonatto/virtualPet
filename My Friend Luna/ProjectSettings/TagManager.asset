@@ -25,6 +25,12 @@ TagManager:
   - Football
   - Cricket Ball
   - Basket Ball
+  - Pet
+  - Leaf
+  - Coin
+  - Bed
+  - Bed Purple
+  - Bed Red
   layers:
   - Default
   - TransparentFX

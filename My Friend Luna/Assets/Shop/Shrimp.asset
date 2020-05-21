@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2406953841168960045, guid: 9f3847d2401587c4e8776a20e6d56dcc, type: 3}
   sprite: {fileID: 21300000, guid: d1fccac6f8864644d854f1ea70052972, type: 3}
-  cost: 90
-  hungerRecover: 90
+  cost: 40
+  hungerRecover: 20
   name: l

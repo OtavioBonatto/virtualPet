@@ -16,14 +16,14 @@ public class Notification : MonoBehaviour {
         AndroidNotificationCenter.RegisterNotificationChannel(c);
     }
 
-    private void OnApplicationQuit() {
-        AndroidNotificationCenter.CancelAllNotifications();
+    private void OnApplicationQuit() {        
         var notification = new AndroidNotification();
         notification.Title = PetController.instance._name;
         notification.Text = PetController.instance._name + " precisa da sua atenção.";
-        notification.FireTime = System.DateTime.Now.AddMinutes(1);
+        notification.FireTime = System.DateTime.Now.AddHours(5);
         notification.ShouldAutoCancel = true;
-
+        
         AndroidNotificationCenter.SendNotification(notification, "channel_id");
+        AndroidNotificationCenter.CancelAllScheduledNotifications();
     }
 }

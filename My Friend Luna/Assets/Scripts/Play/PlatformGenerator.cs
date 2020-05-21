@@ -28,7 +28,7 @@ public class PlatformGenerator : MonoBehaviour {
             if(Random.Range(0f, 100f) < randomCoinChance) {
                 CoinGenerator.instance.SpawnCoin(new Vector3(transform.position.x + (platformWidth / 2), transform.position.y + 1f, transform.position.z));
             } else if(Random.Range(0f, 100f) < randomSpikesChance) {
-                CoinGenerator.instance.SpawnSpikes(new Vector3(transform.position.x + (platformWidth / 2), transform.position.y + 1f, transform.position.z));
+                CoinGenerator.instance.SpawnSpikes(new Vector3(transform.position.x + (platformWidth / 2), transform.position.y + 1.5f, transform.position.z));
             }
 
             transform.position = new Vector3(transform.position.x + (platformWidth / 2), transform.position.y, transform.position.z);

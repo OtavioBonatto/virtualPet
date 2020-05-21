@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class PlayPetController : MonoBehaviour {
 
@@ -28,6 +30,10 @@ public class PlayPetController : MonoBehaviour {
     public Transform groundCheck;
     public float groundCheckRadius;
 
+    public Text totalPointsText;
+    public Text scoreText;
+    public int score;
+
     private void Awake() {
         instance = this;
     }
@@ -42,10 +48,14 @@ public class PlayPetController : MonoBehaviour {
         moveSpeedStore = moveSpeed;
         speedMilestoneCountStore = speedMilestoneCount;
         speedIncreaseMilestoneStore = speedIncreaseMilestone;
+
+        score = 0;
+        scoreText.text = "Pontuação: " + score;
     }
 
     // Update is called once per frame
     void Update() {
+        PetController.instance.Play();
 
         onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, ground);
 
@@ -59,6 +69,8 @@ public class PlayPetController : MonoBehaviour {
 
         if(Input.GetMouseButtonDown(0)) {
             if(onGround) {
+                AudioManager.instance.soundEffects[2].pitch = Random.Range(.9f, 1.1f);
+                AudioManager.instance.PlaySFX(2);
                 theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
             }            
         }
@@ -86,6 +98,8 @@ public class PlayPetController : MonoBehaviour {
             moveSpeed = moveSpeedStore;
             speedMilestoneCount = speedMilestoneCountStore;
             speedIncreaseMilestone = speedIncreaseMilestoneStore;
+
+            totalPointsText.text = "Você ganhou: " + score;
         }
     }
 }

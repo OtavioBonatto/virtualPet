@@ -18,20 +18,20 @@ public class GetPetName : MonoBehaviour {
 
     private void Start() {
         mobileKeys = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+
+        if(mobileKeys != null) {
+            mobileKeys.active = false;
+        }        
     }
 
     private void OnGUI() {
         if(petNameInput.isFocused && petNameInput.text != "" && Input.GetKey(KeyCode.Return)) {
             petName = petNameInput.text;
-            //PetController.instance._name = petName;
-            //PetController.instance.SavePet();
         }
 
         if (petNameInput.text != "" && mobileKeys != null && mobileKeys.status == TouchScreenKeyboard.Status.Done) {
             petName = petNameInput.text;
             petNameInput.text = "";
-            //PetController.instance._name = petName;
-            //PetController.instance.SavePet();
         }
     }
 

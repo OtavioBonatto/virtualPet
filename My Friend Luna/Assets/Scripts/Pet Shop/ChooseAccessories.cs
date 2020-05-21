@@ -26,5 +26,13 @@ public class ChooseAccessories : MonoBehaviour {
         } else if (PlayerPrefs.GetInt("Ball") == 3) {
             petAccessories[5].SetActive(true);
         }
+
+        if (PlayerPrefs.GetInt("Bed") == 1) {
+            petAccessories[6].SetActive(true);
+        } else if (PlayerPrefs.GetInt("Bed") == 2) {
+            petAccessories[7].SetActive(true);
+        } else if (PlayerPrefs.GetInt("Bed") == 3) {
+            petAccessories[8].SetActive(true);
+        }
     }
 }

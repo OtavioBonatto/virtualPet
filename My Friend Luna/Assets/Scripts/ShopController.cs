@@ -49,21 +49,18 @@ public class ShopController : MonoBehaviour {
     }
 
     public void GoPlay() {
-        PetController.instance.Play();
         AudioManager.instance.PlaySFX(0);
 
         StartCoroutine(DelaySceneLoad(playScene));
     }
 
     public void GoPlay2() {
-        PetController.instance.Play();
         AudioManager.instance.PlaySFX(0);
 
         StartCoroutine(DelaySceneLoad(playScene2));
     }
 
     public void GoMemoryGame() {
-        PetController.instance.Play();
         AudioManager.instance.PlaySFX(0);
 
         StartCoroutine(DelaySceneLoad(playScene3));

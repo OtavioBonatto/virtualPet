@@ -21,11 +21,9 @@ public class ChoosePet : MonoBehaviour {
         if(PlayerPrefs.HasKey("PetSelected")) {
             if (pets[PlayerPrefs.GetInt("PetSelected")]) {
                 pets[PlayerPrefs.GetInt("PetSelected")].SetActive(true);
-                Debug.Log("cachorro");
             }
         } else {
             cats[PlayerPrefs.GetInt("CatSelected")].SetActive(true);
-            Debug.Log("gato");
         }
     }
 
@@ -54,7 +52,7 @@ public class ChoosePet : MonoBehaviour {
             if (pets[PlayerPrefs.GetInt("PetSelected")]) {
                 pets[PlayerPrefs.GetInt("PetSelected")].SetActive(true);
             }
-        }        
+        }      
     }
 
     public void ChooseCatPrefab() {

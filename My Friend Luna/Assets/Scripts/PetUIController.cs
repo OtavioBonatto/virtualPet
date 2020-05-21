@@ -14,12 +14,12 @@ public class PetUIController : MonoBehaviour {
         instance = this;
     }
 
-    public void UpdateImages(int food, int happiness, int bathroom, int energy) {
+    public void UpdateImages(float food, float happiness, int bathroom, float energy) {
         if(foodBar != null) {
-            foodBar.fillAmount = (float)food / 100;
-            happinessBar.fillAmount = (float)happiness / 100;
+            foodBar.fillAmount = food / 100;
+            happinessBar.fillAmount = happiness / 100;
             bathroomBar.fillAmount = (float)bathroom / 100;
-            energyBar.fillAmount = (float)energy / 100;
+            energyBar.fillAmount = energy / 100;
         }
         
     }
