@@ -9,6 +9,9 @@ public class MedicineController : MonoBehaviour {
         if(PetController.instance.money >= 1000) {
             PetController.instance.money -= 1000;
             PetController.instance._health = "Boa";
+            PlayerPrefs.DeleteKey("sick");
+        } else {
+            Debug.Log("sem dinheiro suficiente");
         }
     }
 }

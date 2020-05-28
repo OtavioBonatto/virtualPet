@@ -44,7 +44,6 @@ public class ShopController : MonoBehaviour {
 
     public void GoToShop() {
         AudioManager.instance.PlaySFX(0);
-
         StartCoroutine(DelaySceneLoad(shopScene));
     }
 

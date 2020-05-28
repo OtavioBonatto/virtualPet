@@ -8,7 +8,7 @@ public class PoopController : MonoBehaviour {
     public static PoopController instance;
 
     public GameObject poop;
-    public GameManager pet;
+    public Transform poopLocation;
 
     private void Awake() {
         instance = this;
@@ -35,6 +35,6 @@ public class PoopController : MonoBehaviour {
     }
 
     public void SpawnPoop() {
-        SimplePool.Spawn(poop, poop.transform.position, poop.transform.rotation);
+        SimplePool.Spawn(poop, poopLocation.transform.position, poop.transform.rotation);
     }
 }

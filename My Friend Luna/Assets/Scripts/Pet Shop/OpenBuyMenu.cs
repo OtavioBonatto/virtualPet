@@ -83,7 +83,9 @@ public class OpenBuyMenu : MonoBehaviour {
             PlayerPrefs.SetInt("Bowl", bowlNumber);
             buyMenu.gameObject.SetActive(false);
             DisableMenu();
-        }        
+        } else {
+            AudioManager.instance.PlaySFX(2);
+        }
     }
 
     public void BuyBall(int ballNumber) {        
@@ -93,7 +95,9 @@ public class OpenBuyMenu : MonoBehaviour {
             PlayerPrefs.SetInt("Ball", ballNumber);
             buyMenu.gameObject.SetActive(false);
             DisableMenu();
-        }        
+        } else {
+            AudioManager.instance.PlaySFX(2);
+        }
     }
 
     public void BuyBed(int bedNumber) {        
@@ -103,6 +107,8 @@ public class OpenBuyMenu : MonoBehaviour {
             PlayerPrefs.SetInt("Bed", bedNumber);
             buyMenu.gameObject.SetActive(false);
             DisableMenu();
+        } else {
+            AudioManager.instance.PlaySFX(2);
         }
     }
 

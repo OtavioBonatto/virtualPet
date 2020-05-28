@@ -31,7 +31,6 @@ public class GetPetName : MonoBehaviour {
 
         if (petNameInput.text != "" && mobileKeys != null && mobileKeys.status == TouchScreenKeyboard.Status.Done) {
             petName = petNameInput.text;
-            petNameInput.text = "";
         }
     }
 

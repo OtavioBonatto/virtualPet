@@ -42,7 +42,8 @@ public class Shop : MonoBehaviour {
             PetController.instance.money -= itemPrice;
             PetController.instance.UpdateMoney();
         } else {
-            Debug.Log("dinheiro insuficiente");
+            //not enough money
+            AudioManager.instance.PlaySFX(2);
         }
     }
 }

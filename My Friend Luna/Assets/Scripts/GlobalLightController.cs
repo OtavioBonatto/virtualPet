@@ -12,6 +12,7 @@ public class GlobalLightController : MonoBehaviour {
     public bool night;
     public SpriteRenderer nightBackground;
     public SpriteRenderer dayBackground;
+    public GameObject stars;
 
     private void Awake() {
         instance = this;
@@ -46,6 +47,7 @@ public class GlobalLightController : MonoBehaviour {
         globalLight.intensity = 0.40f;
         nightBackground.gameObject.SetActive(true);
         dayBackground.gameObject.SetActive(false);
+        stars.SetActive(true);
     }
 
     public void ChangeToDay() {
@@ -53,5 +55,6 @@ public class GlobalLightController : MonoBehaviour {
         globalLight.intensity = 1;
         dayBackground.gameObject.SetActive(true);
         nightBackground.gameObject.SetActive(false);
+        stars.SetActive(false);
     }
 }

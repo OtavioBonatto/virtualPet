@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PetController : MonoBehaviour {
 
@@ -12,7 +13,9 @@ public class PetController : MonoBehaviour {
     public int _bathroom;
     public float _energy;
 
-  
+    private string birth;
+    private string sick;
+
     public float _weigth;
     public int _age;
     public string _health;
@@ -29,7 +32,6 @@ public class PetController : MonoBehaviour {
 
     public int money;
     public bool hungry;
-    private DateTime lastDay = DateTime.MinValue;
 
     public GameObject heart;
     public Transform heartPosition;
@@ -42,6 +44,17 @@ public class PetController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        if(!PlayerPrefs.HasKey("birth")) {
+            birth = DateTime.Now.Date.ToString();
+            PlayerPrefs.SetString("birth", birth);
+        } else {
+            birth = PlayerPrefs.GetString("birth");
+        }
+
+        if(PlayerPrefs.HasKey("sick")) {
+            sick = PlayerPrefs.GetString("sick");
+        }
+
         theAnim = GetComponent<Animator>();
 
         //PlayerPrefs.SetString("then", "03/17/2020 23:26:00");
@@ -53,8 +66,7 @@ public class PetController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
-        if(TimeManager.gameHourTimer < 0) {
+        if (TimeManager.gameHourTimer < 0) {
             if(_hunger > 0) _hunger -= hungerTicketRate;
             if(_happiness > 0) _happiness -= happinessTicketRate;
             if(_bathroom > 0) _bathroom -= bathroomTicketRate;
@@ -72,39 +84,30 @@ public class PetController : MonoBehaviour {
         }
 
         //fome
-        if(_hunger < 30) {
+        if(_hunger < 25) {
             hungry = true;
         } else {
             hungry = false;
         }
 
         //saúde
-        if(_hunger <= 1) {
+        if(_hunger <= 1 || _happiness <= 1 || _weigth <= 1 || _weigth >= 50) {
             _health = "Ruim";
-        }
-
-        //idade
-        if (lastDay.AddDays(1) > DateTime.Now) {
-            // increase the age
-            _age++;
-            // Store for next time
-            lastDay = DateTime.Now;
+            sick = DateTime.Now.Date.ToString();
+            PlayerPrefs.SetString("sick", sick);
         }
 
         //death
-        //_weigth too low or too high
-        if (_weigth >= 50) {
-            gameObject.SetActive(false);
+        //health bad for too long
+        if(PlayerPrefs.HasKey("sick")) {
+            DateTime sickTime = DateTime.Parse(sick);
+            int sickDays = (int)(DateTime.Now - sickTime).TotalDays + 1;
+            Debug.Log(sickDays);
+            if (sickDays >= 5) {
+                RestartGame();
+            }
         }
-
-        if(_weigth <= 0) {
-            gameObject.SetActive(false);
-        }
-
-        //0 happiness for too long
-        if(_happiness <= 0) {
-            gameObject.SetActive(false);
-        }
+ 
 
         //interface
         if (PetUIController.instance != null) {
@@ -136,6 +139,10 @@ public class PetController : MonoBehaviour {
             }
         }
 
+        //reseta o jogo
+        if(Input.GetKey(KeyCode.R)) {
+            RestartGame();
+        }
 
         theAnim.SetBool("Hungry", hungry);
     }
@@ -226,8 +233,33 @@ public class PetController : MonoBehaviour {
             _bathroom = 0;
         }
 
+        //increase the age
+        DateTime dateTime = DateTime.Parse(birth);
+        _age = (int)(DateTime.Now - dateTime).TotalDays + 1;
+        //increase heart with the age
+        if(FriendlyHeartsController.instance != null) {
+            if (_age >= 5) {
+                FriendlyHeartsController.instance.heartsNumber++;
+                FriendlyHeartsController.instance.RefreshHearts();
+            }
+
+            if (_age >= 10) {
+                FriendlyHeartsController.instance.heartsNumber++;
+                FriendlyHeartsController.instance.RefreshHearts();
+            }
+        }
+
+        //increase the size of the pet 0.1 per day
+        //max size 2.5 min size 1.5
+        float scaleSize = (float)(1.4f + (_age * 0.1));
+        if(scaleSize >= 2.5f) {
+            scaleSize = 2.5f;
+        }
+        gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
+
+
         //esvazia o pote de água
-        if(ts.TotalHours >= 1) {
+        if (ts.TotalHours >= 1) {
             FillBowl.instance.EmptyBowl();
         }        
 
@@ -305,10 +337,25 @@ public class PetController : MonoBehaviour {
             PlayerPrefs.SetInt("_bathroom", _bathroom);
             PlayerPrefs.SetFloat("_energy", _energy);
             PlayerPrefs.SetFloat("_weigth", _weigth);
+            PlayerPrefs.SetInt("_age", _age);
             PlayerPrefs.SetString("_health", _health);
             PlayerPrefs.SetString("_name", _name);
             UpdateMoney();
         }
+    }
+
+    public void RestartGame() {
+        PlayerPrefs.DeleteKey("_hunger");
+        PlayerPrefs.DeleteKey("_happiness");
+        PlayerPrefs.DeleteKey("_bathroom");
+        PlayerPrefs.DeleteKey("_energy");
+        PlayerPrefs.DeleteKey("_weigth");
+        PlayerPrefs.DeleteKey("_age");
+        PlayerPrefs.DeleteKey("_health");
+        PlayerPrefs.DeleteKey("_name");
+        PlayerPrefs.DeleteKey("PetSelected");
+        PlayerPrefs.DeleteKey("CatSelected");
+        SceneManager.LoadScene("Start Menu");
     }
 
     public void Eat(int hungerRecover) {
@@ -321,7 +368,7 @@ public class PetController : MonoBehaviour {
     public void Play() {
         //increase pet fun
         //0.4 of happiness per second
-        _happiness += 0.4f * Time.deltaTime;
+        _happiness += 0.6f * Time.deltaTime;
         if (_happiness >= 100) {
             _happiness = 100;
         }
@@ -333,7 +380,7 @@ public class PetController : MonoBehaviour {
         }        
 
         //gastar 30 gramas em 100 segundos
-        _weigth -= 0.003f * Time.deltaTime;
+        _weigth -= 0.005f * Time.deltaTime;
         if (_weigth <= 1) {
             _weigth = 1;
         }

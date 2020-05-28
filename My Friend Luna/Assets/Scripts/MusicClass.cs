@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicClass : MonoBehaviour {
+
+    private static MusicClass instance;
+
     private AudioSource _audioSource;
     private void Awake() {
         DontDestroyOnLoad(transform.gameObject);
         _audioSource = GetComponent<AudioSource>();
+
+        if (instance == null) {
+            instance = this;
+        } else {
+            Destroy(this.gameObject);
+        }
     }
 
     public void PlayMusic() {

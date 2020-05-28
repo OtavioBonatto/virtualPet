@@ -27,15 +27,6 @@ public class ChoosePet : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        if (Input.GetKey(KeyCode.LeftShift)) {
-            //PlayerPrefs.DeleteKey("PetSelected");
-            //PlayerPrefs.DeleteKey("CatSelected");
-            PlayerPrefs.DeleteAll();
-            Debug.Log("saves deletados.");
-        }
-    }
-
     public void ChoosePetPrefab() {
         if(!PlayerPrefs.HasKey("PetSelected")) {
             var pet = Random.Range(0, pets.Length);

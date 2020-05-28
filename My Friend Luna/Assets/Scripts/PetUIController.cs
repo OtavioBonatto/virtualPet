@@ -26,8 +26,8 @@ public class PetUIController : MonoBehaviour {
 
     public void UpdateWeigth(float weigth, int age, string health, string name) {
         weigthText.text = "Peso: " + weigth.ToString("F2") + "Kg";
-        ageText.text = "Idade: " + age.ToString() + " ano";
-        healthText.text = "Saúde: " + health;
+        ageText.text = "Idade: " + age.ToString() + " dia(s)";
+        healthText.text = "Saúde: ";
         nameText.text = "Nome: " + name;
     }
 }
