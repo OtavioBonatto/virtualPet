@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour {
         if (PlayerPrefs.HasKey("HighScore")) {
             highscore = PlayerPrefs.GetInt("HighScore");
         }
-        highscoreText.text = "Melhor Pontuação:" + highscore;
+        highscoreText.text = "Melhor Pontuação: " + highscore;
         memogryGameScoreText.text = "Pontuação: " + memoryGameScore;
     }
 
@@ -124,7 +124,7 @@ public class GameController : MonoBehaviour {
                 PlayerPrefs.SetInt("HighScore", highscore);
             }
 
-            highscoreText.text = "Melhor Pontuação:" + highscore;
+            highscoreText.text = "Melhor Pontuação: " + highscore;
 
             CheckIfGameIsFinished();
         } else {

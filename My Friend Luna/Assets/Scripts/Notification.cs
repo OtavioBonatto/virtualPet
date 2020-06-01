@@ -22,8 +22,8 @@ public class Notification : MonoBehaviour {
         notification.Text = PetController.instance._name + " precisa da sua atenção.";
         notification.FireTime = System.DateTime.Now.AddHours(5);
         notification.ShouldAutoCancel = true;
-        
-        AndroidNotificationCenter.SendNotification(notification, "channel_id");
+
         AndroidNotificationCenter.CancelAllScheduledNotifications();
+        AndroidNotificationCenter.SendNotification(notification, "channel_id");
     }
 }

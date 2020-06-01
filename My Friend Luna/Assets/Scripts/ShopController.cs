@@ -25,10 +25,6 @@ public class ShopController : MonoBehaviour {
         }
     }
 
-    public void Start() {
-        GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().PlayMusic();
-    }
-
     IEnumerator DelaySceneLoad(string scene) {
         yield return new WaitForSeconds(AudioManager.instance.soundEffects[0].clip.length);
 
@@ -39,7 +35,7 @@ public class ShopController : MonoBehaviour {
     public void GoToMain() {
         if(SceneManager.GetActiveScene().name == startScene) {
             SceneManager.LoadScene(mainScene);
-        }        
+        }
     }
 
     public void GoToShop() {
@@ -85,12 +81,20 @@ public class ShopController : MonoBehaviour {
     public void BackToMain() {
         AudioManager.instance.PlaySFX(0);
 
+        if (MusicClass.instance.source.clip == MusicClass.instance.gameSelectMusic) {
+            MusicClass.instance.PlayMainMusic();
+        }
+
         StartCoroutine(DelaySceneLoad(mainScene));
     }
 
     public void GameSelect() {
         AudioManager.instance.PlaySFX(0);
 
-        StartCoroutine(DelaySceneLoad(gameSelect));
+        if(MusicClass.instance.source.clip == MusicClass.instance.mainMusic) {
+            MusicClass.instance.PlayGameSelectMusic();
+        }
+
+        StartCoroutine(DelaySceneLoad(gameSelect));        
     }
 }

@@ -9,7 +9,7 @@ public class EndGameManager : MonoBehaviour {
     public static EndGameManager instance;
 
     public GameObject timeLabel;
-    public Text counter;
+    //public Text counter;
     public DeathMenu theDeathScreen;
 
     public int counterValue;
@@ -28,7 +28,7 @@ public class EndGameManager : MonoBehaviour {
     void Start() {
         endGame = false;
         currentCounterValue = counterValue;
-        counter.text = "00:" + currentCounterValue;
+        //counter.text = "00:" + currentCounterValue;
         timerSeconds = 1;
     }
 
@@ -45,7 +45,7 @@ public class EndGameManager : MonoBehaviour {
 
     public void DecreaseCounterValue() {
         currentCounterValue--;
-        counter.text = "00:" + currentCounterValue;
+        //counter.text = "00:" + currentCounterValue;
         if(currentCounterValue == 0) {
             endGame = true;
             theDeathScreen.gameObject.SetActive(true);
@@ -59,7 +59,7 @@ public class EndGameManager : MonoBehaviour {
             }            
             
             currentCounterValue = 0;
-            counter.text = "00:" + currentCounterValue;
+            //counter.text = "00:" + currentCounterValue;
         }
     }
 
@@ -68,9 +68,11 @@ public class EndGameManager : MonoBehaviour {
         endGame = false;
         Board.instance.RestartDots();        
         currentCounterValue = counterValue;
-        counter.text = "00:" + currentCounterValue;
+        //counter.text = "00:" + currentCounterValue;
         timerSeconds = 1;
         ScoreManager.instance.score = 0;
+        FillImageTimer.instance.sec = 60;
+        FillImageTimer.instance.Init();
     }
 
     public void RestartMemoryGame() {

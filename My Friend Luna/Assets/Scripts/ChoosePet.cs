@@ -16,8 +16,6 @@ public class ChoosePet : MonoBehaviour {
     }
 
     private void Start() {
-        //ChoosePetPrefab();
-        //ChooseCatPrefab();
         if(PlayerPrefs.HasKey("PetSelected")) {
             if (pets[PlayerPrefs.GetInt("PetSelected")]) {
                 pets[PlayerPrefs.GetInt("PetSelected")].SetActive(true);

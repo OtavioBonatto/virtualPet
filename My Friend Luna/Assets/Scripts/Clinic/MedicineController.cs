@@ -10,8 +10,9 @@ public class MedicineController : MonoBehaviour {
             PetController.instance.money -= 1000;
             PetController.instance._health = "Boa";
             PlayerPrefs.DeleteKey("sick");
+            AudioManager.instance.PlaySFX(1);
         } else {
-            Debug.Log("sem dinheiro suficiente");
+            AudioManager.instance.PlaySFX(2);
         }
     }
 }

@@ -293,7 +293,7 @@ public class Board : MonoBehaviour {
         while(MatchesOnBoard()) {
             streakValue++;
             DestroyMatches();
-            yield return new WaitForSeconds(refillDelay * 1.5f);           
+            yield return new WaitForSeconds(refillDelay);           
         }
         FindMatches.instance.currentMatches.Clear();
         currentDot = null;
@@ -319,24 +319,27 @@ public class Board : MonoBehaviour {
     }
 
     private bool CheckForMatches() {
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < heigth; j++) {
-
-                //check if the dots are in the board
-                if (i < width - 2) {
-                    //check 1 dot to the right and 2 to the left
-                    if (allDots[i + 1, j] != null && allDots[i + 2, j] != null) {
-                        if (allDots[i, j].CompareTag(allDots[i + 1, j].tag) && allDots[i, j].CompareTag(allDots[i + 2, j].tag)) {
-                            return true;
+                if (allDots[i, j] != null) {
+                    //Make sure that one and two to the right are in the
+                    //board
+                    if (i < width - 2) {
+                        //Check if the dots to the right and two to the right exist
+                        if (allDots[i + 1, j] != null && allDots[i + 2, j] != null) {
+                            if (allDots[i, j].CompareTag(allDots[i + 1, j].tag) && allDots[i, j].CompareTag(allDots[i + 2, j].tag)) {
+                                return true;
+                            }
                         }
-                    }
-                }
 
-                if (j < heigth - 2) {
-                    //check dots above
-                    if (allDots[i, j + 1] != null && allDots[i, j + 2] != null) {
-                        if (allDots[i, j].CompareTag(allDots[i, j + 1].tag) && allDots[i, j].CompareTag(allDots[i, j + 2].tag)) {
-                            return true;
+                    }
+                    if (j < heigth - 2) {
+                        //Check if the dots above exist
+                        if (allDots[i, j + 1] != null && allDots[i, j + 2] != null) {
+                            if (allDots[i, j].CompareTag(allDots[i, j + 1].tag) && allDots[i, j].CompareTag(allDots[i, j + 2].tag)) {
+                                return true;
+                            }
                         }
                     }
                 }

@@ -7,13 +7,11 @@ public class ShopLight : MonoBehaviour {
 
     public Light2D lamp;
 
-    private void Start() {
-        if(GlobalLightController.instance.night == false) {
-            lamp.enabled = false;
+    private void Update() {
+        if(GlobalLightController.instance.night == true) {
+            this.gameObject.SetActive(true);
         } else {
-            lamp.enabled = true;
+            this.gameObject.SetActive(false);
         }
     }
-
-
 }

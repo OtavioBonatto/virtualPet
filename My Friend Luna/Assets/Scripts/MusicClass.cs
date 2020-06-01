@@ -3,27 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicClass : MonoBehaviour {
+    
+    public AudioClip mainMusic;
+    public AudioClip gameSelectMusic;
+    public AudioSource source;
 
-    private static MusicClass instance;
 
-    private AudioSource _audioSource;
-    private void Awake() {
-        DontDestroyOnLoad(transform.gameObject);
-        _audioSource = GetComponent<AudioSource>();
+    public static MusicClass instance;
 
+
+    void Awake() {
         if (instance == null) {
             instance = this;
+            DontDestroyOnLoad(this);
         } else {
-            Destroy(this.gameObject);
+            Destroy(this);
+            return;
         }
     }
 
-    public void PlayMusic() {
-        if (_audioSource.isPlaying) return;
-        _audioSource.Play();
+    void Start() {
+        PlayMainMusic();
     }
 
-    public void StopMusic() {
-        _audioSource.Stop();
+
+    public void PlayMainMusic() {
+        if (instance != null) {
+            if (instance.source != null) {
+                instance.source.Stop();
+                instance.source.clip = instance.mainMusic;
+                instance.source.Play();
+            }
+        } else {
+            Debug.LogError("Unavailable MusicPlayer component");
+        }
+    }
+
+
+    public void PlayGameSelectMusic() {
+        if (instance != null) {
+            if (instance.source != null) {
+                instance.source.Stop();
+                instance.source.clip = instance.gameSelectMusic;
+                instance.source.Play();
+            }
+        } else {
+            Debug.LogError("Unavailable MusicPlayer component");
+        }
     }
 }

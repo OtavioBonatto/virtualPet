@@ -57,7 +57,7 @@ public class PlayPetController : MonoBehaviour {
         if (PlayerPrefs.HasKey("HighScoreRun")) {
             highscore = PlayerPrefs.GetInt("HighScoreRun");
         }
-        highscoreText.text = "Melhor Pontuação:" + highscore;
+        highscoreText.text = "Melhor Pontuação: " + highscore;
     }
 
     // Update is called once per frame
@@ -102,7 +102,7 @@ public class PlayPetController : MonoBehaviour {
             PlayerPrefs.SetInt("HighScoreRun", highscore);
         }
 
-        highscoreText.text = "Melhor Pontuação:" + highscore;
+        highscoreText.text = "Melhor Pontuação: " + highscore;
     }
 
     private void OnCollisionEnter2D(Collision2D other) {

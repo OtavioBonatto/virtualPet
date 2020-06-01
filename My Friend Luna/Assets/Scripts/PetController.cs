@@ -31,7 +31,9 @@ public class PetController : MonoBehaviour {
     public InventoryController inventory;
 
     public int money;
+
     public bool hungry;
+    public bool happyAnim;
 
     public GameObject heart;
     public Transform heartPosition;
@@ -55,13 +57,30 @@ public class PetController : MonoBehaviour {
             sick = PlayerPrefs.GetString("sick");
         }
 
+        //death
+        //health bad for too long
+        if (PlayerPrefs.HasKey("sick")) {
+            DateTime sickTime = DateTime.Parse(sick);
+            int sickDays = (int)(DateTime.Now - sickTime).TotalDays + 1;
+            //Debug.Log(sickDays);
+            if (sickDays >= 5) {
+                RestartGame();
+            }
+        }
+
         theAnim = GetComponent<Animator>();
+        
 
         //PlayerPrefs.SetString("then", "03/17/2020 23:26:00");
         UpdateStatus();
         if(PetUIController.instance != null) {
             PetUIController.instance.UpdateWeigth(_weigth, _age, _health, _name);
-        }        
+        }
+
+        //happy animation
+        StartCoroutine(HappyAnimCo());
+        
+
     }
 
     // Update is called once per frame
@@ -82,7 +101,7 @@ public class PetController : MonoBehaviour {
                 _happiness = 0;
             }
         }
-
+                
         //fome
         if(_hunger < 25) {
             hungry = true;
@@ -91,23 +110,11 @@ public class PetController : MonoBehaviour {
         }
 
         //saúde
-        if(_hunger <= 1 || _happiness <= 1 || _weigth <= 1 || _weigth >= 50) {
+        if (_hunger <= 1 || _happiness <= 1 || _weigth <= 1 || _weigth >= 50) {
             _health = "Ruim";
             sick = DateTime.Now.Date.ToString();
             PlayerPrefs.SetString("sick", sick);
-        }
-
-        //death
-        //health bad for too long
-        if(PlayerPrefs.HasKey("sick")) {
-            DateTime sickTime = DateTime.Parse(sick);
-            int sickDays = (int)(DateTime.Now - sickTime).TotalDays + 1;
-            Debug.Log(sickDays);
-            if (sickDays >= 5) {
-                RestartGame();
-            }
-        }
- 
+        } 
 
         //interface
         if (PetUIController.instance != null) {
@@ -145,6 +152,7 @@ public class PetController : MonoBehaviour {
         }
 
         theAnim.SetBool("Hungry", hungry);
+        theAnim.SetBool("Happy", happyAnim);
     }
 
     void UpdateStatus() {
@@ -218,7 +226,7 @@ public class PetController : MonoBehaviour {
 
         TimeSpan ts = GetTimeSpan();
 
-        _hunger -= (float)(ts.TotalHours * 15);
+        _hunger -= (float)(ts.TotalHours * 4.5f);
         if(_hunger < 0) {
             _hunger = 0;
         }
@@ -228,7 +236,7 @@ public class PetController : MonoBehaviour {
             _happiness = 0;
         }
 
-        _bathroom -= (int)(ts.TotalHours * 15);
+        _bathroom -= (int)(ts.TotalHours * 8);
         if (_bathroom < 0) {
             _bathroom = 0;
         }
@@ -257,11 +265,12 @@ public class PetController : MonoBehaviour {
         }
         gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
 
-
         //esvazia o pote de água
-        if (ts.TotalHours >= 1) {
-            FillBowl.instance.EmptyBowl();
-        }        
+        if(FillBowl.instance != null) {
+            if (ts.TotalHours >= 1) {
+                FillBowl.instance.EmptyBowl();
+            }
+        }
 
         if(LightController.instance != null) {
             if (LightController.instance.toggleLight.isOn == true) {
@@ -345,17 +354,9 @@ public class PetController : MonoBehaviour {
     }
 
     public void RestartGame() {
-        PlayerPrefs.DeleteKey("_hunger");
-        PlayerPrefs.DeleteKey("_happiness");
-        PlayerPrefs.DeleteKey("_bathroom");
-        PlayerPrefs.DeleteKey("_energy");
-        PlayerPrefs.DeleteKey("_weigth");
-        PlayerPrefs.DeleteKey("_age");
-        PlayerPrefs.DeleteKey("_health");
-        PlayerPrefs.DeleteKey("_name");
-        PlayerPrefs.DeleteKey("PetSelected");
-        PlayerPrefs.DeleteKey("CatSelected");
-        SceneManager.LoadScene("Start Menu");
+        PlayerPrefs.DeleteAll();
+        this.gameObject.SetActive(false);
+        RIPController.instance.RIPAnimation();
     }
 
     public void Eat(int hungerRecover) {
@@ -392,8 +393,21 @@ public class PetController : MonoBehaviour {
         }
     }
 
-    public void Sleep() {
-        _energy = 100;
+    private IEnumerator HappyAnimCo() {
+        if (SceneManager.GetActiveScene().name == "Main Scene") {
+            while (true) {
+                if (_happiness >= 80) {
+                    happyAnim = true;
+                    AudioManager.instance.PlaySFX(5);
+                    yield return new WaitForSeconds(2f);
+                    happyAnim = false;
+                    var randomTime = UnityEngine.Random.Range(5, 15);
+                    yield return new WaitForSeconds(randomTime);
+                } else {
+                    yield return new WaitForSeconds(2f);
+                }
+            }
+        }
     }
 
     void OnApplicationPause(bool pauseStatus) {

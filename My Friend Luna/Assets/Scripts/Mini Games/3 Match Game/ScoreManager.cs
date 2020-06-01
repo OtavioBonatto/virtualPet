@@ -21,7 +21,7 @@ public class ScoreManager : MonoBehaviour {
         if (PlayerPrefs.HasKey("HighScore3Dot")) {
             highscore = PlayerPrefs.GetInt("HighScore3Dot");
         }
-        highscoreText.text = "Melhor Pontuação:" + highscore;
+        highscoreText.text = "Melhor Pontuação: " + highscore;
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class ScoreManager : MonoBehaviour {
             PlayerPrefs.SetInt("HighScore3Dot", highscore);
         }
 
-        highscoreText.text = "Melhor Pontuação:" + highscore;
+        highscoreText.text = "Melhor Pontuação: " + highscore;
     }
 
     public void IncreaseScore(int amountToIncrease) {
