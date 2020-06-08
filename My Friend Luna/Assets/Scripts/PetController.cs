@@ -46,11 +46,14 @@ public class PetController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        if(!PlayerPrefs.HasKey("birth")) {
-            birth = DateTime.Now.Date.ToString();
-            PlayerPrefs.SetString("birth", birth);
-        } else {
-            birth = PlayerPrefs.GetString("birth");
+        if (SceneManager.GetActiveScene().name == "Main Scene") {
+            if (!PlayerPrefs.HasKey("birth")) {            
+                FirstMeetBasket.instance.BasketAnimation();
+                birth = DateTime.Now.Date.ToString();
+                PlayerPrefs.SetString("birth", birth);
+            } else {
+                birth = PlayerPrefs.GetString("birth");
+            } 
         }
 
         if(PlayerPrefs.HasKey("sick")) {
@@ -95,6 +98,7 @@ public class PetController : MonoBehaviour {
         //actions
         if(_bathroom < 10) {
             PoopController.instance.SpawnPoop();
+            PlayerPrefs.SetInt("Poop", 1);
             _bathroom = 100;
             _happiness -= 50;
             if(_happiness < 0) {
@@ -146,6 +150,11 @@ public class PetController : MonoBehaviour {
             }
         }
 
+        //health bad animation
+        if(_health == "Ruim") {
+            hungry = true;
+        }
+
         //reseta o jogo
         if(Input.GetKey(KeyCode.R)) {
             RestartGame();
@@ -165,7 +174,7 @@ public class PetController : MonoBehaviour {
         }
 
         if (!PlayerPrefs.HasKey("_happiness")) {
-            _happiness = 90;
+            _happiness = 60;
             PlayerPrefs.SetFloat("_happiness", _happiness);
         } else {
             _happiness = PlayerPrefs.GetFloat("_happiness");
@@ -193,7 +202,7 @@ public class PetController : MonoBehaviour {
         }
 
         if (!PlayerPrefs.HasKey("_weigth")) {
-            _weigth = 15;
+            _weigth = 5;
             PlayerPrefs.SetFloat("_weigth", _weigth);
         } else {
             _weigth = PlayerPrefs.GetFloat("_weigth");
@@ -242,28 +251,39 @@ public class PetController : MonoBehaviour {
         }
 
         //increase the age
-        DateTime dateTime = DateTime.Parse(birth);
-        _age = (int)(DateTime.Now - dateTime).TotalDays + 1;
-        //increase heart with the age
-        if(FriendlyHeartsController.instance != null) {
-            if (_age >= 5) {
-                FriendlyHeartsController.instance.heartsNumber++;
-                FriendlyHeartsController.instance.RefreshHearts();
+        if(birth != null) {
+            DateTime dateTime = DateTime.Parse(birth);
+            _age = (int)(DateTime.Now - dateTime).TotalDays + 1;
+            //increase heart with the age
+            if (FriendlyHeartsController.instance != null) {
+                if (_age >= 5) {
+                    FriendlyHeartsController.instance.heartsNumber++;
+                    FriendlyHeartsController.instance.RefreshHearts();
+                }
+
+                if (_age >= 10) {
+                    FriendlyHeartsController.instance.heartsNumber++;
+                    FriendlyHeartsController.instance.RefreshHearts();
+                }
             }
 
-            if (_age >= 10) {
-                FriendlyHeartsController.instance.heartsNumber++;
-                FriendlyHeartsController.instance.RefreshHearts();
+            //increase the size of the pet 0.1 per day
+            //max size 2.5 min size 1.5
+            if(PlayerPrefs.HasKey("PetSelected")) {
+                float scaleSize = (float)(1.3f + (_age * 0.1));
+                if (scaleSize >= 1.9f) {
+                    scaleSize = 1.9f;
+                }
+                gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
+            } else {
+                float scaleSize = (float)(1.6f + (_age * 0.1));
+                if (scaleSize >= 2.2f) {
+                    scaleSize = 2.2f;
+                }
+                gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
             }
-        }
 
-        //increase the size of the pet 0.1 per day
-        //max size 2.5 min size 1.5
-        float scaleSize = (float)(1.4f + (_age * 0.1));
-        if(scaleSize >= 2.5f) {
-            scaleSize = 2.5f;
         }
-        gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
 
         //esvazia o pote de água
         if(FillBowl.instance != null) {
@@ -396,12 +416,19 @@ public class PetController : MonoBehaviour {
     private IEnumerator HappyAnimCo() {
         if (SceneManager.GetActiveScene().name == "Main Scene") {
             while (true) {
-                if (_happiness >= 80) {
+                if (_happiness >= 80 && _health == "Boa") {
+                    var randomTime2 = UnityEngine.Random.Range(5, 10);
+                    yield return new WaitForSeconds(randomTime2);
                     happyAnim = true;
-                    AudioManager.instance.PlaySFX(5);
+                    if (PlayerPrefs.HasKey("PetSelected")) {
+                        AudioManager.instance.PlaySFX(5);
+                    } else {
+                        AudioManager.instance.PlaySFX(8);
+                    }
+                    
                     yield return new WaitForSeconds(2f);
                     happyAnim = false;
-                    var randomTime = UnityEngine.Random.Range(5, 15);
+                    var randomTime = UnityEngine.Random.Range(5, 10);
                     yield return new WaitForSeconds(randomTime);
                 } else {
                     yield return new WaitForSeconds(2f);

@@ -168,8 +168,6 @@ public class DotController : MonoBehaviour {
             Board.instance.currentState = GameState.move;
         }
 
-        //Board.instance.currentState = GameState.move;
-
     }      
     
     public void MakeRowBomb() {

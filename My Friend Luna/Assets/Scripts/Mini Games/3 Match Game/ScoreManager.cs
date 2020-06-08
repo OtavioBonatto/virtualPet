@@ -21,19 +21,19 @@ public class ScoreManager : MonoBehaviour {
         if (PlayerPrefs.HasKey("HighScore3Dot")) {
             highscore = PlayerPrefs.GetInt("HighScore3Dot");
         }
-        highscoreText.text = "Melhor Pontuação: " + highscore;
+        highscoreText.text = "Best Score: " + highscore;
     }
 
     // Update is called once per frame
     void Update() {
-        scoreText.text = "Pontuação: " + score;
+        scoreText.text = "Score: " + score;
 
         if (score > highscore) {
             highscore = score;
             PlayerPrefs.SetInt("HighScore3Dot", highscore);
         }
 
-        highscoreText.text = "Melhor Pontuação: " + highscore;
+        highscoreText.text = "Best Score: " + highscore;
     }
 
     public void IncreaseScore(int amountToIncrease) {

@@ -40,11 +40,6 @@ public class FillBowl : MonoBehaviour {
                 }
             }
         }
-
-        //esvazia o pote de agua
-        if(Input.GetKeyDown(KeyCode.O)) {
-            EmptyBowl();
-        }
     }
 
     public void EmptyBowl() {

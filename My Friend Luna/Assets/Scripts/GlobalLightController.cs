@@ -44,7 +44,7 @@ public class GlobalLightController : MonoBehaviour {
 
     public void ChangeToNight() {
         night = true;
-        globalLight.intensity = 0.40f;
+        globalLight.intensity = 0.20f;
         nightBackground.gameObject.SetActive(true);
         dayBackground.gameObject.SetActive(false);
         stars.SetActive(true);

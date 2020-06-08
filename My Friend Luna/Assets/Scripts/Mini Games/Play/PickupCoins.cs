@@ -12,7 +12,7 @@ public class PickupCoins : MonoBehaviour {
             AudioManager.instance.PlaySFX(1);
             PetController.instance.money += coinsToGive;
             PlayPetController.instance.score += coinsToGive;
-            PlayPetController.instance.scoreText.text = "Pontuação: " + PlayPetController.instance.score;
+            PlayPetController.instance.scoreText.text = "Score: " + PlayPetController.instance.score;
             gameObject.SetActive(false);
         }
     }

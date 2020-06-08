@@ -11,8 +11,8 @@ public class OpenBuyMenu : MonoBehaviour {
     public Text priceText;
     public Image buyMenu;
     public Image itemMenuImage;
-    public Sprite bowlRed, bowlBlue, bowlGreen;
-    public Sprite football, cricketBall, basketBall;
+    public Sprite bowlRed, bowlBlue, bowlGreen, bowlCatBlue, bowlCatRed, bowlCatGreen;
+    public Sprite football, cricketBall, basketBall, ballCatBlue, ballCatRed, ballCatYellow;
     public Sprite bed, bedPurple, bedRed;
     public Button buyButton;
     private bool menuActive = false;
@@ -29,14 +29,26 @@ public class OpenBuyMenu : MonoBehaviour {
                 BuyBowlMenu(bowlBlue, 2);
             } else if (hit != false && hit.collider != null && hit.collider.CompareTag("Bowl Green") && menuActive == false) {
                 BuyBowlMenu(bowlGreen, 3);
+            } else if (hit != false && hit.collider != null && hit.collider.CompareTag("Bowl Cat Blue") && menuActive == false) {
+                BuyBowlMenu(bowlCatBlue, 4);
+            } else if (hit != false && hit.collider != null && hit.collider.CompareTag("Bowl Cat Red") && menuActive == false) {
+                BuyBowlMenu(bowlCatRed, 5);
+            } else if (hit != false && hit.collider != null && hit.collider.CompareTag("Bowl Cat Green") && menuActive == false) {
+                BuyBowlMenu(bowlCatGreen, 6);
             }
 
-            if(hit != false && hit.collider != null && hit.collider.CompareTag("Cricket Ball") && menuActive == false) {
+            if (hit != false && hit.collider != null && hit.collider.CompareTag("Cricket Ball") && menuActive == false) {
                 BuyBalllMenu(cricketBall, 1);
             } else if(hit != false && hit.collider != null && hit.collider.CompareTag("Basket Ball") && menuActive == false) {
                 BuyBalllMenu(basketBall, 2);
             } else if(hit != false && hit.collider != null && hit.collider.CompareTag("Football") && menuActive == false) {
                 BuyBalllMenu(football, 3);
+            } else if (hit != false && hit.collider != null && hit.collider.CompareTag("Ball Cat Blue") && menuActive == false) {
+                BuyBalllMenu(ballCatBlue, 4);
+            } else if (hit != false && hit.collider != null && hit.collider.CompareTag("Ball Cat Red") && menuActive == false) {
+                BuyBalllMenu(ballCatRed, 5);
+            } else if (hit != false && hit.collider != null && hit.collider.CompareTag("Ball Cat yellow") && menuActive == false) {
+                BuyBalllMenu(ballCatYellow, 6);
             }
 
             if (hit != false && hit.collider != null && hit.collider.CompareTag("Bed") && menuActive == false) {

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class GetPetName : MonoBehaviour {
@@ -27,7 +26,7 @@ public class GetPetName : MonoBehaviour {
     private void OnGUI() {
         if(petNameInput.isFocused && petNameInput.text != "" && Input.GetKey(KeyCode.Return)) {
             petName = petNameInput.text;
-        }
+        } 
 
         if (petNameInput.text != "" && mobileKeys != null && mobileKeys.status == TouchScreenKeyboard.Status.Done) {
             petName = petNameInput.text;

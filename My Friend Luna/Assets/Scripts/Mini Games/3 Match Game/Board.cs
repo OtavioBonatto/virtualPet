@@ -24,7 +24,7 @@ public class Board : MonoBehaviour {
     public GameObject[,] allDots;
     public DotController currentDot;
 
-    private int basePieceValue = 5;
+    private int basePieceValue = 3;
     private int streakValue = 1;
     public float refillDelay = .5f;
 
@@ -184,7 +184,7 @@ public class Board : MonoBehaviour {
             allDots[column, row] = null;
 
             //GOLD PRO AMIGO
-            PetController.instance.money += 5;
+            PetController.instance.money += 3;
         }
     }
 

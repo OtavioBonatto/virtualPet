@@ -8,9 +8,7 @@ public class MusicClass : MonoBehaviour {
     public AudioClip gameSelectMusic;
     public AudioSource source;
 
-
     public static MusicClass instance;
-
 
     void Awake() {
         if (instance == null) {
@@ -31,6 +29,7 @@ public class MusicClass : MonoBehaviour {
         if (instance != null) {
             if (instance.source != null) {
                 instance.source.Stop();
+                instance.source.loop = true;
                 instance.source.clip = instance.mainMusic;
                 instance.source.Play();
             }
@@ -44,6 +43,7 @@ public class MusicClass : MonoBehaviour {
         if (instance != null) {
             if (instance.source != null) {
                 instance.source.Stop();
+                instance.source.loop = true;
                 instance.source.clip = instance.gameSelectMusic;
                 instance.source.Play();
             }

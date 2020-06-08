@@ -31,6 +31,12 @@ TagManager:
   - Bed
   - Bed Purple
   - Bed Red
+  - Bowl Cat Blue
+  - Bowl Cat Red
+  - Bowl Cat Green
+  - Ball Cat Blue
+  - Ball Cat Red
+  - Ball Cat yellow
   layers:
   - Default
   - TransparentFX

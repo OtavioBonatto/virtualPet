@@ -14,19 +14,12 @@ public class TextColorRandom : MonoBehaviour {
 
     void Update() {
         if (timeLeft <= Time.deltaTime) {
-            // transition complete
-            // assign the target color
             theTxt.color = targetColor;
 
-            // start a new transition
             targetColor = new Color(Random.value, Random.value, Random.value);
             timeLeft = 1.0f;
         } else {
-            // transition in progress
-            // calculate interpolated color
-            theTxt.color = Color.Lerp(theTxt.color, targetColor, Time.deltaTime / timeLeft);
-
-            // update the timer
+            theTxt.color = Color.Lerp(theTxt.color, targetColor, Time.deltaTime / timeLeft);                        
             timeLeft -= Time.deltaTime;
         }
     }

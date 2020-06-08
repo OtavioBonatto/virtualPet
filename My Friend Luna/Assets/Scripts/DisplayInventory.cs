@@ -29,19 +29,17 @@ public class DisplayInventory : MonoBehaviour {
 
             if(itemsDisplayed.ContainsKey(slot)) {
                 if (itemsDisplayed[slot]) {
-                    itemsDisplayed[slot].gameObject.transform.GetChild(2).GetComponent<Text>().text = "Quantia: " + slot.amount;
-                    //Debug.Log("já tem");
+                    itemsDisplayed[slot].gameObject.transform.GetChild(2).GetComponent<Text>().text = "Num: " + slot.amount;
 
                     var children = new List<GameObject>();
                     foreach (Transform child in itemsContainer) children.Add(child.gameObject);
                     children.ForEach((child) => {
                         string amountText = child.transform.GetChild(2).GetComponent<Text>().text;
-                        if (amountText == "Quantia: 0") {
+                        if (amountText == "Num: 0") {
                             Debug.Log("destruir");
                             Destroy(child);
                         }
                     });
-
                 }
             } 
         }
@@ -57,16 +55,24 @@ public class DisplayInventory : MonoBehaviour {
             itemObject.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => {
                 OnButtonClick(si);
             });
-            itemObject.transform.GetChild(2).GetComponent<Text>().text = "Amount " + slot.amount;
+            itemObject.transform.GetChild(2).GetComponent<Text>().text = "Num " + slot.amount;
 
             itemsDisplayed.Add(slot, itemObject);
         }
     }
 
     private void OnButtonClick(ShopItem item) {
-        AudioManager.instance.PlaySFX(1);
-        PetController.instance.Eat(item.hungerRecover);
-        PetController.instance._weigth += item.hungerRecover * 0.005f;
-        PetController.instance.inventory.RemoveItem(item);
+        if(PetController.instance._hunger < 90) {
+            AudioManager.instance.PlaySFX(1);
+            PetController.instance.Eat(item.hungerRecover);
+            PetController.instance._weigth += item.hungerRecover * 0.005f;
+            PetController.instance.inventory.RemoveItem(item);
+        } else {
+            if(PlayerPrefs.HasKey("PetSelected")) {
+                AudioManager.instance.PlaySFX(6);
+            } else {
+                AudioManager.instance.PlaySFX(7);
+            }        
+        }      
     }
 }

@@ -43,8 +43,8 @@ public class GameController : MonoBehaviour {
         if (PlayerPrefs.HasKey("HighScore")) {
             highscore = PlayerPrefs.GetInt("HighScore");
         }
-        highscoreText.text = "Melhor Pontuação: " + highscore;
-        memogryGameScoreText.text = "Pontuação: " + memoryGameScore;
+        highscoreText.text = "Best Score: " + highscore;
+        memogryGameScoreText.text = "Score: " + memoryGameScore;
     }
 
     private void Update() {
@@ -115,16 +115,16 @@ public class GameController : MonoBehaviour {
             btns[firstGuessIndex].image.color = new Color(0, 0, 0, 0);
             btns[secondGuessIndex].image.color = new Color(0, 0, 0, 0);
 
-            memoryGameScore += 50;
-            PetController.instance.money += 50;
-            memogryGameScoreText.text = "Pontuação: " + memoryGameScore;
+            memoryGameScore += 25;
+            PetController.instance.money += 25;
+            memogryGameScoreText.text = "Score: " + memoryGameScore;
 
             if (memoryGameScore > highscore) {
                 highscore = memoryGameScore;
                 PlayerPrefs.SetInt("HighScore", highscore);
             }
 
-            highscoreText.text = "Melhor Pontuação: " + highscore;
+            highscoreText.text = "Best Score: " + highscore;
 
             CheckIfGameIsFinished();
         } else {

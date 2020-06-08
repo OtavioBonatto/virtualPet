@@ -17,11 +17,6 @@ public class Shop : MonoBehaviour {
         PopulateShop();
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     private void PopulateShop() {
         for (int i = 0; i < shopItem.Length; i++) {
             ShopItem si = shopItem[i];

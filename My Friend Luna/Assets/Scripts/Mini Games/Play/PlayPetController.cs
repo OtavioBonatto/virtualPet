@@ -52,12 +52,12 @@ public class PlayPetController : MonoBehaviour {
         speedIncreaseMilestoneStore = speedIncreaseMilestone;
 
         score = 0;
-        scoreText.text = "Pontuação: " + score;
+        scoreText.text = "Score: " + score;
 
         if (PlayerPrefs.HasKey("HighScoreRun")) {
             highscore = PlayerPrefs.GetInt("HighScoreRun");
         }
-        highscoreText.text = "Melhor Pontuação: " + highscore;
+        highscoreText.text = "Best Score: " + highscore;
     }
 
     // Update is called once per frame
@@ -102,7 +102,7 @@ public class PlayPetController : MonoBehaviour {
             PlayerPrefs.SetInt("HighScoreRun", highscore);
         }
 
-        highscoreText.text = "Melhor Pontuação: " + highscore;
+        highscoreText.text = "Best Score: " + highscore;
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
@@ -113,10 +113,10 @@ public class PlayPetController : MonoBehaviour {
             speedMilestoneCount = speedMilestoneCountStore;
             speedIncreaseMilestone = speedIncreaseMilestoneStore;
 
-            totalPointsText.text = "Você ganhou: " + score;
+            totalPointsText.text = "" + score + "$";
 
             score = 0;
-            scoreText.text = "Pontuação: " + score;
+            scoreText.text = "Score: " + score;
 
         }
     }

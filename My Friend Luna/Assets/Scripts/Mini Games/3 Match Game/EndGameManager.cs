@@ -9,7 +9,6 @@ public class EndGameManager : MonoBehaviour {
     public static EndGameManager instance;
 
     public GameObject timeLabel;
-    //public Text counter;
     public DeathMenu theDeathScreen;
 
     public int counterValue;
@@ -28,7 +27,6 @@ public class EndGameManager : MonoBehaviour {
     void Start() {
         endGame = false;
         currentCounterValue = counterValue;
-        //counter.text = "00:" + currentCounterValue;
         timerSeconds = 1;
     }
 
@@ -45,21 +43,19 @@ public class EndGameManager : MonoBehaviour {
 
     public void DecreaseCounterValue() {
         currentCounterValue--;
-        //counter.text = "00:" + currentCounterValue;
         if(currentCounterValue == 0) {
             endGame = true;
             theDeathScreen.gameObject.SetActive(true);
             if(GameController.instance != null) {
-                pointsText.text = "Você ganhou: " + GameController.instance.memoryGameScore + "$";
+                pointsText.text = GameController.instance.memoryGameScore + "$";
             }
 
             if(ScoreManager.instance != null) {
                 Debug.Log(ScoreManager.instance.score);
-                matchScore.text = "Você ganhou: " + ScoreManager.instance.score + "$";
+                matchScore.text = ScoreManager.instance.score + "$";
             }            
             
             currentCounterValue = 0;
-            //counter.text = "00:" + currentCounterValue;
         }
     }
 
@@ -68,18 +64,13 @@ public class EndGameManager : MonoBehaviour {
         endGame = false;
         Board.instance.RestartDots();        
         currentCounterValue = counterValue;
-        //counter.text = "00:" + currentCounterValue;
         timerSeconds = 1;
         ScoreManager.instance.score = 0;
         FillImageTimer.instance.sec = 60;
-        FillImageTimer.instance.Init();
+        //FillImageTimer.instance.Init();
     }
 
     public void RestartMemoryGame() {
-        //theDeathScreen.gameObject.SetActive(false);
-        //currentCounterValue = counterValue;
-        //counter.text = "" + currentCounterValue;
-        //timerSeconds = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

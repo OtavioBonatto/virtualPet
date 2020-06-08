@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ChoosePet : MonoBehaviour {
 
     public static ChoosePet instance;
+
+    public Image loadingScreen;
 
     public GameObject[] pets;
     public GameObject[] cats;
@@ -26,41 +30,54 @@ public class ChoosePet : MonoBehaviour {
     }
 
     public void ChoosePetPrefab() {
-        if(!PlayerPrefs.HasKey("PetSelected")) {
-            var pet = Random.Range(0, pets.Length);
-            if (pets[pet]) {
-                pets[pet].SetActive(true);
+        if(GetPetName.instance.petNameInput.text != "") {
+            if (!PlayerPrefs.HasKey("PetSelected")) {
+                loadingScreen.gameObject.SetActive(true);
+                var pet = Random.Range(0, pets.Length);
+                if (pets[pet]) {
+                    pets[pet].SetActive(true);
+                }
+
+                PetController.instance._name = GetPetName.instance.petName;
+
+                PetController.instance.SavePet();
+
+                PlayerPrefs.SetInt("PetSelected", pet);
+            } else {
+                if (pets[PlayerPrefs.GetInt("PetSelected")]) {
+                    pets[PlayerPrefs.GetInt("PetSelected")].SetActive(true);
+                }
             }
-
-            PetController.instance._name = GetPetName.instance.petName;
-
-            PetController.instance.SavePet();
-
-            PlayerPrefs.SetInt("PetSelected", pet);
         } else {
-            if (pets[PlayerPrefs.GetInt("PetSelected")]) {
-                pets[PlayerPrefs.GetInt("PetSelected")].SetActive(true);
-            }
-        }      
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        
+
+     
     }
 
     public void ChooseCatPrefab() {
-        if (!PlayerPrefs.HasKey("CatSelected")) {
-            var cat = Random.Range(0, cats.Length);
-            if (cats[cat]) {
-                cats[cat].SetActive(true);
+        if (GetPetName.instance.petNameInput.text != "") {
+            if (!PlayerPrefs.HasKey("CatSelected")) {
+                loadingScreen.gameObject.SetActive(true);
+                var cat = Random.Range(0, cats.Length);
+                if (cats[cat]) {
+                    cats[cat].SetActive(true);
+                }
+
+                PetController.instance._name = GetPetName.instance.petName;
+                PetController.instance._weigth = 5;
+
+                PetController.instance.SavePet();
+
+                PlayerPrefs.SetInt("CatSelected", cat);
+            } else {
+                if (cats[PlayerPrefs.GetInt("CatSelected")]) {
+                    cats[PlayerPrefs.GetInt("CatSelected")].SetActive(true);
+                }
             }
-
-            PetController.instance._name = GetPetName.instance.petName;
-            PetController.instance._weigth = 5;
-
-            PetController.instance.SavePet();
-
-            PlayerPrefs.SetInt("CatSelected", cat);
         } else {
-            if (cats[PlayerPrefs.GetInt("CatSelected")]) {
-                cats[PlayerPrefs.GetInt("CatSelected")].SetActive(true);
-            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

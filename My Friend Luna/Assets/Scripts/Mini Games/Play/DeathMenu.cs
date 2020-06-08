@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class DeathMenu : MonoBehaviour {
 
-    public string mainMenuLevel;
+    public string gameSelect;
 
     public void RestartGame() {
         GameManager.instance.Reset();
@@ -14,6 +14,6 @@ public class DeathMenu : MonoBehaviour {
 
     public void QuitGame() {
         PetController.instance.SavePet();
-        SceneManager.LoadScene(mainMenuLevel);
+        SceneManager.LoadScene(gameSelect);
     }
 }
